@@ -1,0 +1,56 @@
+
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+            
+                <div class="col-lg-6">
+                 
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__left product__thumb nice-scroll" >
+                            <a class="pt active" href="#product-1">
+                                <img style="height:530px ; width: 475px; ;"src="/product-images/{{products.[0].product._id}}.jpg" alt="">
+                            </a>
+                           
+                        </div>
+                       
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+         
+                    <div class="product__details__text">
+                        <h3>{{products.[0].product.name}} <span>Brand:{{products.[0].product.description}} </span></h3>
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <span>( 138 reviews )</span>
+                        </div>
+                        
+                        <div class="product__details__price"> Price : {{products.[0].product.price}}</div>
+                        <h4>  Quantity : {{products.[0].qty}}</h5><br>
+                        <h4> payment Method : {{products.[0].paymentMethod}}</h5><br>
+                        <div class="product__details__price">Delivary Status : {{products.[0].Status}}</div>
+                       <h4>Delivary Address</h4><br>
+
+                       <h6> Name : {{products.[0].delivaryAddress.name}}</h6>
+                       <h6> Address : {{products.[0].delivaryAddress.address}}</h6>
+                       <h6>Phone No: {{products.[0].delivaryAddress.phone}}</h6>
+                       <h6> pincode : {{products.[0].delivaryAddress.pincode}}</h6>
+                       <h6>  City : {{products.[0].delivaryAddress.city}}</h6>
+                       <h6> State : {{products.[0].delivaryAddress.state}}</h6>
+                       <h6> Date : {{products.[0].delivaryAddress.date}}</h6>
+                       
+
+
+                        
+                        
+                        
+                    </div>
+            
+                </div>
+           
+        </div>
+    </section>

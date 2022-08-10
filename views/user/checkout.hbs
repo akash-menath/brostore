@@ -1,0 +1,311 @@
+<!-- Checkout Section Begin -->
+<section class="">
+  <div class="container">
+    <div class="row">
+      {{!-- <div class="col-lg-12">
+        <h6 class="coupon__link">
+          <span class="icon_tag_alt"></span>
+          <a href="#">Have a coupon?</a> Click here to enter your code.
+        </h6>
+      </div> --}}
+    </div>
+
+
+
+
+    <!-- Shoping Cart -->
+    <div class="bg0 p-t-75 p-b-85 mt-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-xl-6 m-lr-auto m-b-50">
+            <div class="m-l-25 m-r--38 m-lr-0-xl">
+              <div class="wrap-table-shopping-cart">
+
+                <button class="site-btn" type="button" data-toggle="collapse"
+                  data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                  Add new address
+                </button><br><br>
+                <h4 class="mb-3">Delivery address</h4>
+                <div class="collapse col-md-10 col-lg-12" id="collapseExample">
+                  <form action="/add-address" id="address-form" method="post">
+
+                    <div class="needs-validation">
+                      <div class="row">
+
+                        <div class="col-lg-12">
+                          <div class="card mb-4">
+                            <div class="card-body">
+                              <div class="row">
+                                <input type="text" name="userId" value="{{user._id}}" hidden>
+                                <div class="col-sm-3">
+                                  <p class="mb-0"> Name</p>
+                                </div>
+                                <div class="col-sm-9">
+                                  <input type="text" id="name" name="name" value="{{data.name}}" required/>
+                                </div>
+                              </div>
+                              <hr>
+                              <div class="row">
+                                <div class="col-sm-3">
+                                  <p class="mb-0">Email</p>
+                                </div>
+                                <div class="col-sm-9">
+                                  <input type="email" id="email" value="{{data.email}}" name="email" required/>
+                                </div>
+                              </div>
+                              <hr>
+                              <div class="row">
+                                <div class="col-sm-3">
+                                  <p class="mb-0">Phone</p>
+                                </div>
+                                <div class="col-sm-9">
+                                  <input type="tel" id="phone" name="phone" value="{{data.phone}}"  maxlength="10" required/>
+                                </div>
+                              </div>
+                              <hr>
+
+                              <div class="row">
+                                <div class="col-sm-3">
+                                  <p class="mb-0">Address</p>
+                                </div>
+                                <div class="col-sm-9">
+                                  <input rows="4" type="text" class="form-control" value="{{data.Address}}"  name="Address" required>
+                                </div>
+                              </div>
+                              <hr>
+                              <div class="row">
+                                <div class="col-sm-3">
+                                  <p class="mb-0">State</p>
+                                </div>
+                                <div class="col-sm-9">
+                                  <input type="text" name="State"value="{{data.State}}" required>
+                                </div>
+                              </div>
+                              <hr>
+                              <div class="row">
+                                <div class="col-sm-3">
+                                  <p class="mb-0">City</p>
+                                </div>
+                                <div class="col-sm-9">
+                                  <input type="text" name="City"value="{{data.City}}" required>
+                                </div>
+                              </div>
+                              <hr>
+                              <div class="row">
+                                <div class="col-sm-3">
+                                  <p class="mb-0">Pincode</p>
+                                </div>
+                                <div class="col-sm-9">
+                                  <input type="number" name="Pincode" maxlength="6"required>
+                                </div>
+                              </div>
+
+
+
+                            </div>
+                          </div>
+                          <button type="submit" class="site-btn">Submit</button>
+
+                        </div>
+                      </div>
+
+
+
+
+                    </div>
+                  </form>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+              </div>
+              <form id="Checkout-form">
+                <input type="text" name="userId" value="{{user._id}}" hidden>
+                {{#each address}}
+                <div class="form-check mt-4">
+                  <input class="form-check-input" type="radio" value="{{address.adressId}}" name="address"  id="" required>
+                  <p>
+                    <span>Name : {{address.name}}</span>
+
+                    <br>
+                    <span>Email : {{address.email}}</span>
+                    <br>
+                    <span>Phone : {{address.Phone}}</span>
+                    <br>
+                    <span>Address : {{address.Address}}</span>
+                    <br>
+                    <span>City : {{address.City}}</span>
+                    <br>
+                    <span>State : {{address.State}}</span>
+                    <br>
+                    <span>Pincode: {{address.Pincode}}</span>
+                    <br>
+
+
+                  </p>
+                </div>
+                {{/each}}
+                <div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
+
+                  <div class="flex-w flex-m m-r-20 m-tb-5">
+                    {{!-- <input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text"
+                      name="coupon" placeholder="Coupon Code">
+
+                    <div class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
+                      Apply coupon
+                    </div> --}}
+                  </div>
+
+
+                </div>
+            </div>
+          </div>
+
+          <div class="col-sm-10 col-lg-7 col-xl-6 m-lr-auto m-b-50">
+            <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+              <div class="">
+                <h5>Your order</h5>
+                <div class="checkout__order__product">
+                  <ul>
+                    <li>
+                      <span class="top__text">Product</span>
+                      <span class="top__text__right">Total</span>
+                    </li>
+
+
+                    {{#each product}}
+                    <li>{{inc @index}}. {{product.name}} ({{qty}})<span> {{product.price}}</span></li>
+                     {{/each}}
+
+
+                  </ul>
+                </div>
+                <div class="checkout__order__total">
+                  <ul>
+                    <li>Subtotal <span>RS : {{this.total}}</span></li>
+                    <li>Delivary Charge <span> Free</span></li>
+                    <input type="text" id="" name="total" value="{{total}}" hidden />
+                    <li>Total <span>RS : {{this.total}}</span></li>
+
+                  </ul>
+                </div>
+                <div class="checkout__order__widget">
+
+
+                  <label for="check-payment">
+                    Cash On Delivery
+                    <input type="radio" id="check-payment" value="COD" name="payment-method" required/>
+                    <span class="checkmark" required></span>
+                  </label>
+
+                  <label for="paypal">
+                    Online Payment
+                    <input type="radio" id="paypal" value="online" name="payment-method" required/>
+                    <span class="checkmark" required></span>
+                  </label>
+
+                </div>
+                <button type="submit" class="site-btn">Place oder</button>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+        </form>
+      </div>
+
+    </div>
+
+    <script>
+
+      $('#Checkout-form').submit((e) => {
+        e.preventDefault()
+        $.ajax({
+          url: '/checkout',
+          method: 'post',
+          data: $('#Checkout-form').serialize(),
+          success: (response) => {
+            if (response.codSuccess) {
+              location.href = ('/paymentSucess')
+            } else {
+              razorpayPayment(response)
+            }
+
+          }
+
+        })
+      })
+      function razorpayPayment(order) {
+        var options = {
+          "key": "rzp_test_Dc5CDKt3jNo32r",
+          // Enter the Key ID generated from the Dashboard
+          "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          "currency": "INR",
+          "name": "Shoppingcart",
+          "description": "Test Transaction",
+          "image": "https://example.com/your_logo",
+          "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+          "handler": function (response) {
+            verifyPayment(response, order)
+          },
+          "prefill": {
+            "name": "Gaurav Kumar",
+            "email": "gaurav.kumar@example.com",
+            "contact": "9999999999"
+          },
+          "notes": {
+            "address": "Razorpay Corporate Office"
+          },
+          "theme": {
+            "color": "#3399cc"
+          }
+        };
+
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+      }
+
+
+
+      function verifyPayment(payment, order) {
+        $.ajax({
+          url: '/verify-payment',
+          data: {
+            payment,
+            order
+          },
+          method: 'post',
+          success: (response) => {
+            if (response.status) {
+              location.href = ('/paymentSucess')
+            } else {
+              alert('payment Failed')
+            }
+          }
+        })
+      }
+
+    </script>
+    
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+  </script>
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js">
+  </script>
+<script>
+  $("#Checkout-form").validate();
+
+</script>

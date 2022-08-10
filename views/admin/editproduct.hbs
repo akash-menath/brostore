@@ -1,0 +1,71 @@
+
+
+
+      
+
+<section>
+  <div class=" container row">
+    <div class="ml-5 col-md-6">
+      <h2 class="text-center mt-5">Edit Products</h2>
+      <form action="/admin/editproduct/{{product._id}}" method="post" enctype="multipart/form-data" id="edit" >
+        <label for="">Name</label>
+        <input type="text" name="name" class="form-control" value="{{product.name}}" required>
+<br>
+
+
+        <label class="text-dark" for="">Salect Categories</label><br>
+        <select name="category"  class="form-select" id="">
+          {{#each catogory}}
+          <option value="{{this.name}}">{{this.name}}</option>
+          {{/each}}
+        </select>
+
+
+
+{{!-- 
+  <label for="">Catogory</label>
+                                <select name="category" value="{{product.category}}" class="form-select" id="">
+                                    <option value="men">Men</option>
+                                    <option value="women">Women</option>
+                                    <option value="kids">Kids</option>
+                                </select> --}}
+        <label for="">Description</label>
+        <input type="text" name="description" class="form-control" value="{{product.description}}" required>
+
+        <label for="">Price</label>
+        <input type="Number" name="price" class="form-control" value="{{product.price}}" required>
+
+         <label for="" class="text-dark">Stock</label>
+        <input type="Number" name="stock" class="form-control" value="{{product.stock}}" required><br>
+
+        <label for="">Image</label>
+        <img src="/product-images/{{product._id}}.jpg" style="width: 50px; height: 50px;" id="imgView">
+        <input type="file" name="Image" class="form-control" value="/product-images/{{product._id}}.jpg"  onchange="viewImage(event)" required>
+
+  
+
+        <button type="submit" class="btn btn-success mt-4">Submit</button>
+
+      </form>
+    </div>
+  </div>
+</section>
+<script>
+
+    function viewImage(event){
+        document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
+    }
+</script>
+
+
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+  </script>
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js">
+  </script>
+<script>
+  $("#edit").validate();
+</script>

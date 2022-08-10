@@ -1,0 +1,148 @@
+<!-- Sale & Revenue Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-line fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Today Ravanue</p>
+                    <h6 class="mb-0">{{totalCost.[0].sum}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-bar fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Total Users</p>
+                    <h6 class="mb-0">{{totalUser}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-area fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Cancel Orders</p>
+                    <h6 class="mb-0">{{cancelOrder.[0].number}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-pie fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Total Order</p>
+                    <h6 class="mb-0">{{ totalOrder}}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sale & Revenue End -->
+{{!-- <canvas id="myChart"></canvas></div>
+<div> <canvas></canvas></div> --}}
+
+
+<div class="container-fluid pt- px-4">
+    <div class="row g-4">
+
+
+
+        <div class="col-sm-12 col-xl-5 mt-5">
+            <canvas id="myChart"></canvas>
+        </div> 
+
+
+
+        <div class="col-sm-12 col-xl-6 mt-5">
+            <canvas id="earning"></canvas>
+        </div>
+
+
+
+
+    </div>
+</div>    
+
+
+
+    {{!--
+    <!-- Footer Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light rounded-top p-4">
+            <div class="row">
+                <div class="col-12 col-sm-6 text-center text-sm-start">
+                    &copy; <a href="#">Your Site Name</a>, All Right Reserved.
+                </div>
+                <div class="col-12 col-sm-6 text-center text-sm-end">
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                    </br>
+                    Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+</div>
+<!-- Content End -->
+
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div> --}}
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+<script type="text/javascript"></script>
+
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['COD', 'Razorpay'],
+            datasets: [{
+                label: 'payment methods',
+                data: [{{ totalCod}},{{OnlinePymentcount}}],
+                backgroundColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54,162,235,1)',
+                    'rgba(255,206,86,1)'
+                ],
+            }]
+
+        },
+        options: {
+            responsive: true,
+        },
+    })
+
+    var earning = document.getElementById('earning').getContext('2d');
+    var myChart = new Chart(earning, {
+        type: 'bar',
+        data: {
+            labels: ['Placed', 'Shipped', 'Delivered', 'Cancelled',],
+            datasets: [{
+                label: 'Order Status',
+                data: [{{Placed.[0].number}},{{Shipped.[0].number}},{{Deliverd.[0].number}},{{Cancelled.[0].number}}],
+                backgroundColor: [
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(60, 170, 70, 1)',
+                    'rgba(255, 0, 0, 1)',
+                ],
+            }]
+        },
+        options: {
+            responsive: true,
+        }
+    });
+
+
+
+</script>

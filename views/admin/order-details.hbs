@@ -1,0 +1,86 @@
+<section>
+    <div class="container">
+        <table class="table mt-5 display" id="orderTable">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">phone No</th>
+                    <th scope="col">Payment</th>
+                    <th scope="col">Delivary status</th>
+                    <th scope="col">amount</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Change Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {{#each data}}
+                    <th scope="row">{{inc @index}}</th>
+                    <td>{{this.delivaryAddress.name}}</td>
+                    <td>{{this.delivaryAddress.phone}}</td>
+                    <td>{{this.paymentMethod}}</td>
+                    <td>{{products.Status}}</td>
+                    <td>{{this.delivaryAddress.totalAmount}}</td>
+                    <td>{{this.delivaryAddress.address}}</td>
+                
+
+
+
+                    <td>
+                        {{#if products.active}}
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <span class="d-none d-lg-inline-flex btn btn-success ">{{products.Status}}</span> </a>
+
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="/admin/changeStatus1/{{this._id}}/{{products.item}}"><button
+                                    class="btn btn-primary"> Placed </button></a>
+                            <a href="/admin/changeStatus2/{{this._id}}/{{products.item}}"><button
+                                    class="btn btn-warning "> Shipped </button></a>
+                            <a href="/admin/changeStatus4/{{this._id}}/{{products.item}}"><button
+                                    class="btn btn-success">Delivered</button></a>
+                            <a href="/admin/changeStatus5/{{this._id}}/{{products.item}}"><button class="btn btn-danger"
+                                    onclick="return confirm('Are you sure')">Cancelled</button></a>
+                        </div>
+                        {{else}}
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <span class="d-none d-lg-inline-flex btn btn-danger ">{{products.Status}}</span> </a>
+                        {{/if}}
+
+                    </td>
+                    <td>
+                        <a href="/admin/viewOrderProduct/{{this._id}}/{{products.item}}" data-abc="true" class="btn btn-primary"><i
+                                class="fa fa-chevron-right"></i>View</a>
+
+                                
+                                
+                    </td>
+
+
+
+
+
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+<body>
+
+</body>
+
+<script>
+    $(document).ready(function () {
+
+
+        $('#orderTable').wrap('<div id="hide" style="display:none"/>');
+
+        $('#hide').css('display', 'block');
+    });
+
+
+    var table = $('#orderTable').DataTable();
+</script>

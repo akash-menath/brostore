@@ -1,0 +1,141 @@
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!-- Offcanvas Menu Begin -->
+<div class="offcanvas-menu-overlay"></div>
+<div class="offcanvas-menu-wrapper">
+    <div class="offcanvas__close">+</div>
+    <ul class="offcanvas__widget">
+        <li><span class="icon_search search-switch"></span></li>
+        <li><a href="#"><span class="icon_heart_alt"></span>
+                <div class="tip">2</div>
+            </a></li>
+        <li><a href="#"><span class="icon_bag_alt"></span>
+                <div class="tip">2</div>
+            </a></li>
+    </ul>
+    <div class="offcanvas__logo">
+        <a href="/user-index"><img src="/user/img/logo.png" alt=""></a>
+    </div>
+    <div id="mobile-menu-wrap"></div>
+
+
+    {{#if users}}
+    <div class="offcanvas__auth">
+        <a onclick="return confirm('are you sure logout')" href="/logout">Logout</a>
+    </div>
+    {{else}}
+
+
+    <div class="offcanvas__auth">
+        <a href="/login">Login</a>
+        <a href="/signin">Register</a>
+    </div>
+    {{/if}}
+</div>
+<!-- Offcanvas Menu End -->
+
+<!-- Header Section Begin -->
+<header class="header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-3 col-lg-2">
+                <div class="header__logo">
+                    <a href=""><img src="/user/img/logo.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-7">
+                <nav class="header__menu">
+                    <ul>
+                        <li class="active"><a href="/">Home</a></li>
+                        {{!-- {{#each category}}
+                        <li><a href="/products/{{this.name}}">{{this.name}}</a></li>
+                        {{/each}}
+                        <li><a href="/shop">Shop</a></li> --}}
+
+
+
+
+                        <li><a href="/shop">category</a>
+                            <ul class="dropdown">
+                                <li><a href="/shop">All Products</a></li>
+                                {{#each category}}
+                                <li><a href="/products/{{this.name}}">{{this.name}}</a></li>
+                                {{/each}}
+                            </ul>
+                        </li>
+
+
+
+
+
+                        <li><a href="">Pages</a>
+                            <ul class="dropdown">
+                                <li><a href="/wishlist">wishlist</a></li>
+                                <li><a href="/cart">Shop Cart</a></li>
+                                <li><a href="/checkout">Checkout</a></li>
+                                <li><a href="/viewOrders">viewOrders</a></li>
+                            </ul>
+                        </li>
+                        {{#if users}}
+                        <li><a href="">Profile</a>
+                            <ul class="dropdown">
+                                <li><a href="/userProfile">Welcome {{users.name}}</a></li>
+                                <li><a href="/logout" onclick="return confirm('are you sure logout')">Logout</a></li>
+                            </ul>
+                        </li>
+                        {{else}}
+                        <li><a href="#">Account</a>
+                            <ul class="dropdown">
+                                <li><a href="/login">Login</a></li>
+                                <li><a href="/signin">Register</a></li>
+                            </ul>
+                        </li>
+                        {{/if}}
+                        {{#if users}}
+                        <li class="active ml-5"><a href="/userProfile">welcome {{users.name}}</a></li>
+                        {{/if}}
+
+                    </ul>
+                </nav>
+            </div>
+            {{#if users}}
+
+
+            <div class="col-lg-3">
+                <div class="header__right">
+                    <div class="header__right__auth">
+                        <a onclick="return confirm('are you sure logout')" href="/logout">Logout</a>
+
+                    </div>
+
+                    {{else}}
+
+
+                    <div class="col-lg-3">
+                        <div class="header__right">
+                            <div class="header__right__auth">
+                                <a href="/login">Login</a>
+                                <a href="/signin">Register</a>
+                            </div>
+                            {{/if}}
+                            <ul class="header__right__widget">
+                                <li><span class="icon_search search-switch"></span></li>
+                                <li><a href="/wishlist"><span class="icon_heart_alt"></span>
+                                        <div class="tip"><span id="wishlist-count">{{wishlistCount}}</span></div>
+                                    </a></li>
+                                <li><a href="/cart"><span class="icon_bag_alt"></span>
+                                        <div class="tip"><span id="cart-count">{{cartCount}}</span></div>
+                                    </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="canvas__open">
+                    <i class="fa fa-bars"></i>
+                </div>
+            </div>
+</header>
+<!-- Header Section End -->

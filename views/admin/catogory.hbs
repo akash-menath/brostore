@@ -1,0 +1,57 @@
+
+
+
+
+        
+<section>
+    <div class="container"> 
+        <div class="">
+            <a href="/admin/add-catogory" class="btn btn-success mt-5">Add Catogories</a>
+        </div>
+        <table class="table mt-5" id="aaa">
+            <thead>
+                <tr>
+                    <th scope="col">Number</th>
+                    <th scope="col">catories</th>
+                    <th></th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {{#each catogory}}
+               
+                <tr>
+                    <th scope="row">{{inc @index}}</th>
+                    <td>{{this.name}}</td>
+                        <td>                           
+                      {{!-- <a href="/admin/editcatogory/{{this._id}}" class="btn btn-primary">Edit</a> --}}
+                      <a href="/admin/deletecatogory/{{this._id}}" class="btn btn-danger"
+                      onclick="return confirm('Are you sure to Delete {{this.name}}?')">Delete</a>
+                     </td>
+                </tr>
+                {{/each}}
+
+                                         
+              
+            </tbody>
+        </table>
+    </div>
+
+</section>  
+
+
+
+
+<script>
+    $(document).ready(function () {
+
+
+        $('#aaa').wrap('<div id="hide" style="display:none"/>');
+
+        $('#hide').css('display', 'block');
+    });
+
+
+    var table = $('#aaa').DataTable();
+</script>
+

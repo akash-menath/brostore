@@ -1,0 +1,46 @@
+
+
+
+      
+
+<section>
+  <div class=" container row">
+    <div class="ml-5 col-md-6">
+      <h2 class="text-center mt-5">Edit Banner</h2>
+      <form action="/admin/editbanner/{{bannerData._id}}" method="post" enctype="multipart/form-data" id="edit" >
+        <label for="">Name</label>
+        <input type="text" name="name" class="form-control" value="{{bannerData.name}}" required>
+
+
+        <label for="">Description</label>
+        <input type="text" name="description" class="form-control" value="{{bannerData.description}}" required>
+
+        <label for="">Image</label>
+        <img src="/banner-images/{{bannerData._id}}.jpg" style="width: 50px; height: 50px;" id="imgView">
+        <input type="file" name="Image" class="form-control" onchange="viewImage(event)">
+
+        <button type="submit" class="btn btn-success mt-4">Submit</button>
+
+      </form>
+    </div>
+  </div>
+</section>
+<script>
+
+    function viewImage(event){
+        document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
+    }
+</script>
+
+
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+  </script>
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js">
+  </script>
+<script>
+  $("#edit").validate();
+</script>

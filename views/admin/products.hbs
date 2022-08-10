@@ -1,0 +1,62 @@
+
+
+        
+
+<section>
+    <div class="container"> 
+        <div class="">
+            <a href="/admin/add-product" class="btn btn-success mt-5">Add Product</a>
+        </div>
+        <table class="table mt-5 display" id="productTable">
+            <thead>
+                <tr>
+                    <th scope="col">Number</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Discription</th>
+                    <th scope="col">category</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Image</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each products}}
+                <tr>
+                    <th scope="row">{{inc @index}}</th>
+                    <td>{{this.name}} </td>
+                    <td>{{this.description}} </td>
+                    <td>{{this.category}} </td>
+                    <td>₹{{this.price}}</td>
+                    <td>₹{{this.stock}}</td>
+                    <td><img src="/product-images/{{this._id}}.jpg" style="width: 50px; height: 50px;"></td>
+                    <td>                           
+                      <a href="/admin/editproduct/{{this._id}}" class="btn btn-primary">Edit</a>
+                      <a href="/admin/deleteproduct/{{this._id}}" class="btn btn-danger"
+                      onclick="return confirm('Are you sure to Delete {{this.name}}?')">Delete</a>
+                     </td>
+                </tr>
+
+                                         
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+{{!--  --}}
+
+<script>
+    $(document).ready(function () {
+
+
+        $('#productTable').wrap('<div id="hide" style="display:none"/>');
+
+        $('#hide').css('display', 'block');
+    });
+
+
+    var table = $('#productTable').DataTable();
+</script>
+
