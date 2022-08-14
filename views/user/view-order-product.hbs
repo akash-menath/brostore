@@ -1,92 +1,252 @@
 
- <!-- Breadcrumb Begin -->
-    <div class="breadcrumb-option">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb__links">
-                        <a href="/"><i class="fa fa-home"></i> Home</a>
+
+
+<div class="container">
+    <article class="card">
+        <header class="card-header"> My Orders / Tracking </header>
+        <div class="card-body">
+
+            <h6>Order ID : {{products.[0]._id}}</h6>
+            <article class="card">
+                <div class="card-body row">
+                    <div class="col"> <strong>Estimated Delivery time:</strong> <br>{{products.[0].delivaryAddress.date}} </div>
+                    <div class="col"> <strong>Shipping BY:</strong> <br> BLUEDART, | <i class="fa fa-phone"></i>
+                        +1598675986 </div>
+                    <div class="col"> <strong>Status:
+                          </strong> <br>delivarystatus :44 {{products.[0].products.Status}}<br> status : </div>
+                    <div class="col"> <strong>Tracking #:</strong> <br> BD045903594059 </div>
+                    <div class="col"> <a class=" btn btn-lg" href="/invoice/{{products.[0]._id}}/{{products.[0].item}}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+</svg></a></div>
                        
-                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <!-- Breadcrumb End -->
-
-    <!-- Product Details Section Begin -->
-    
-    <section class="product-details spad">
-        <div class="container">
-            <div class="row">
-            
-                <div class="col-lg-6">
-                 
-                    <div class="product__details__pic">
-                        <div class="product__details__pic__left product__thumb nice-scroll">
-                            <a class="pt active" href="#product-1">
-                                <img src="/product-images/{{products.[0].product._id}}.jpg" alt="">
-                            </a>
-                            <a class="pt" href="#product-2">
-                                <img src="/product-images/{{products.[0].product._id}}.jpg" alt="">
-                            </a>
-                            <a class="pt" href="#product-3">
-                                <img src="/product-images/{{products.[0].product._id}}.jpg" alt="">
-                            </a>
-                            <a class="pt" href="#product-4">
-                                <img src="/product-images/{{products.[0].product._id}}.jpg" alt="">
-                            </a>
-                        </div>
-                        <div class="product__details__slider__content">
-                            <div class="product__details__pic__slider owl-carousel">
-                                <img data-hash="product-1" class="product__big__img" src="/product-images/{{products.[0].product._id}}.jpg" alt="">
-                                <img data-hash="product-2" class="product__big__img" src="/product-images/{{products.[0].product._id}}.jpg" alt="">
-                                <img data-hash="product-3" class="product__big__img" src="/product-images/{{products.[0].product._id}}.jpg" alt="">
-                                <img data-hash="product-4" class="product__big__img" src="/product-images/{{products.[0].product._id}}.jpg" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
+            </article>
+            <div class="track">
          
-                    <div class="product__details__text">
-                        <h3>{{products.[0].product.name}} <span>Brand:{{products.[0].product.description}} </span></h3>
-                        <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <span>( 138 reviews )</span>
-                        </div>
-                        
-                        <div class="product__details__price"> Price : {{products.[0].product.price}}</div>
-                        <h4>  Quantity : {{products.[0].qty}}</h5><br>
-                        <h4> payment Method : {{products.[0].paymentMethod}}</h5><br>
-                        <div class="product__details__price">Delivary Status : {{products.[0].Status}}</div>
-                       <h4>Delivary Address</h4><br>
 
-                       <h6> Name : {{products.[0].delivaryAddress.name}}</h6>
-                       <h6> Address : {{products.[0].delivaryAddress.address}}</h6>
+        
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
+                        class="text">Order confirmed</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">
+                        Picked by courier</span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> On the
+                        way </span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Deliverd
+                        pickup</span> </div>
+                      
+                    
+            </div>
+            <hr>
+
+
+            <div class="row">
+                <div class="col-md-6 ">
+                    <ul class="row">
+
+                        <li class="">
+                            <figure class="itemside mb-3">
+                                <div class="width"><img src="/product-images/{{products.[0].product._id}}.jpg" class="dd"></div>
+                                <figcaption class="info align-self-center">
+                                    <h5 class="title">{{result.name}} <br><br> RS : {{products.[0].product.price}}</h5> <span
+                                        class="text-muted"> Quantity : {{products.[0].qty}}
+                                    </span>
+                                    <p></p>
+                                </figcaption>
+                            </figure>
+                        </li>
+
+                    </ul>
+                </div>
+                <div>
+                <h4>delivary Address</h4>
+                <br><br>
+                <h5>Name : {{products.[0].delivaryAddress.name}}</h5>
+                 <h6> Address : {{products.[0].delivaryAddress.address}}</h6>
                        <h6>Phone No: {{products.[0].delivaryAddress.phone}}</h6>
                        <h6> pincode : {{products.[0].delivaryAddress.pincode}}</h6>
                        <h6>  City : {{products.[0].delivaryAddress.city}}</h6>
                        <h6> State : {{products.[0].delivaryAddress.state}}</h6>
                        <h6> Date : {{products.[0].delivaryAddress.date}}</h6>
-                       
 
-
-                        
-                        
-                        
-                    </div>
-            
                 </div>
+            </div>
+
+
+            <div class="aaa">
+               
+                 <a href="/cancelOrder/{{this.userId}}/{{products.item}}" data-abc="true" class="btn btn-danger">Cancel Order<i
+                    class="fa fa-chevron-right"></i></a>
+                    <p>{{products.[0]._id}},,{{products.[0].item}}</p>
+            </div>
+
+        
+            
            
+
         </div>
-    </section>
-    <!-- Product Details Section End -->
+    </article>
+</div>
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+    body {
+        background-color: #eeeeee;
+        font-family: 'Open Sans', serif
+    }
+
+    .container {
+        margin-top: 50px;
+        margin-bottom: 50px
+    }
+
+    .card {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 0.10rem
+    }
+
+    .card-header:first-child {
+        border-radius: calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0
+    }
+
+    .card-header {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: #fff;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1)
+    }
+
+    .track {
+        position: relative;
+        background-color: #ddd;
+        height: 7px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        margin-bottom: 60px;
+        margin-top: 50px
+    }
+
+    .track .step {
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        width: 25%;
+        margin-top: -18px;
+        text-align: center;
+        position: relative
+    }
+
+    .track .step.active:before {
+        background: #FF5722
+    }
+
+    .track .step::before {
+        height: 7px;
+        position: absolute;
+        content: "";
+        width: 100%;
+        left: 0;
+        top: 18px
+    }
+
+    .track .step.active .icon {
+        background: #ee5435;
+        color: #fff
+    }
+
+    .track .icon {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        position: relative;
+        border-radius: 100%;
+        background: #ddd
+    }
+
+    .track .step.active .text {
+        font-weight: 400;
+        color: #000
+    }
+
+    .track .text {
+        display: block;
+        margin-top: 7px
+    }
+
+    .itemside {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 100%
+    }
+
+    .itemside .aside {
+        position: relative;
+        -ms-flex-negative: 0;
+        flex-shrink: 0
+    }
+
+    .img-sm {
+        width: 80px;
+        height: 80px;
+        padding: 7px
+    }
+
+    ul.row,
+    ul.row-sm {
+        list-style: none;
+        padding: 0
+    }
+
+    .itemside .info {
+        padding-left: 15px;
+        padding-right: 7px
+    }
+
+    .itemside .title {
+        display: block;
+        margin-bottom: 5px;
+        color: #212529
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 1rem
+    }
+
+    .btn-warning {
+        color: #ffffff;
+        background-color: #ee5435;
+        border-color: #ee5435;
+        border-radius: 1px
+    }
+
+    .btn-warning:hover {
+        color: #ffffff;
+        background-color: #ff2b00;
+        border-color: #ff2b00;
+        border-radius: 1px
+    }
+
+   
+</style>
 
 
 

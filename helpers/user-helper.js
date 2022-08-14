@@ -40,6 +40,16 @@ module.exports = {
             }
         })
     },
+    existinguser:(userData)=>{
+      return new Promise(async(resolve,reject)=>{
+        let user = await db.get().collection(collection.user_collection).findOne({ email: userData.email,phone:userData.phone})
+        if(user){
+            resolve({status:false})
+        }else{
+            resolve({status:true})
+        }
+      })
+    },
 
     dologin: (userData) => {
         return new Promise(async (resolve, reject) => {
@@ -529,7 +539,7 @@ module.exports = {
                     pincode:address.Pincode,
                     phone:address.phone,
                     email:address.email,
-                    date: Date(),
+                    date:new Date().toLocaleString(),
                     time:Date.now()
                 },
                 userId: objectid(order.userId),
@@ -822,6 +832,23 @@ module.exports = {
             }
               
             
+        })
+    },
+    searchProducts:(data)=>{
+        return new Promise(async(resolve,reject)=>{
+            sarchProduct=await db.get().collection(collection.product_collection).find({
+                '$or':[
+                    {name:{$regex:data,$options:'i'}},
+                    {category:{$regex:data,$options:'i'}},
+                    {Price:{$regex:data,$options:'i'}}
+
+                ]
+
+            }).toArray()
+            resolve(sarchProduct)
+            
+
+        
         })
     }
 }

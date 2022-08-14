@@ -9,15 +9,16 @@
     <div class="offcanvas__close">+</div>
     <ul class="offcanvas__widget">
         <li><span class="icon_search search-switch"></span></li>
-        <li><a href="#"><span class="icon_heart_alt"></span>
-                <div class="tip">2</div>
+        <li><a href="/wishlist"><span class="icon_heart_alt"></span>
+                <div class="tip" id="wishlist-count1">{{wishlistCount}}</div>
             </a></li>
-        <li><a href="#"><span class="icon_bag_alt"></span>
-                <div class="tip">2</div>
+        <li><a href="/cart"><span class="icon_bag_alt"></span>
+                <div class="tip" id="cart-count1">{{cartCount}}</div>
             </a></li>
     </ul>
     <div class="offcanvas__logo">
-        <a href="/user-index"><img src="/user/img/logo.png" alt=""></a>
+        <h2>BROSTORE</h2>
+        {{!-- <a href="/"><img src="/user/img/logo.png" alt=""></a> --}}
     </div>
     <div id="mobile-menu-wrap"></div>
 
@@ -80,9 +81,9 @@
                             </ul>
                         </li>
                         {{#if users}}
-                        <li><a href="">Profile</a>
+                        <li><a>{{users.name}}</a>
                             <ul class="dropdown">
-                                <li><a href="/userProfile">Welcome {{users.name}}</a></li>
+                                <li><a href="/userProfile">Profile</a></li>
                                 <li><a href="/logout" onclick="return confirm('are you sure logout')">Logout</a></li>
                             </ul>
                         </li>

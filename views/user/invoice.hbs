@@ -1,0 +1,148 @@
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="/"><i class="fa fa-home"></i> Home</a>
+                    <span> <div class="col">
+                                <button class="btn btn-lg" onclick="generatePDF()">Download  PDF<svg
+                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-download" viewBox="0 0 16 16">
+                                        <path
+                                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z">
+                                        </path>
+                                        <path
+                                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z">
+                                        </path>
+                                    </svg></button>
+                            </div></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<div class="container mt-5 mb-5" id="invoice">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-10">
+            <div class="receipt bg-white p-3 rounded"><img src="https://i.imgur.com/zCAnG06.png" width="120" />
+                <h4 class="mt-2 mb-3">Your order is confirmed!</h4>
+                <h6 class="name">Hello {{products.0.delivaryAddress.name}},</h6><span class="fs-12 text-black-50">your
+                    order has been confirmed and will be shipped in two days</span>
+                <hr />
+           
+                <div class="d-flex flex-row justify-content-between align-items-center order-details">
+                    <div><span class="d-block fs-12">Order date</span><span
+                            class="font-weight-bold">{{products.0.delivaryAddress.date}}</span></div>
+                    <div><span class="d-block fs-12">Order number</span><span
+                            class="font-weight-bold">{{products.0._id}}</span></div>
+                    <div><span class="d-block fs-12">Payment method</span><span class="font-weight-bold">Credit
+                            card</span><img class="ml-1 mb-1" src="https://i.imgur.com/ZZr3Yqj.png" width="20" /></div>
+                    <div><span class="d-block fs-12">Shipping Address</span><span class="font-weight-bold text-success">
+                            {{products.0.delivaryAddress.name}}
+                            <br />
+                            {{products.0.delivaryAddress.address}}
+                            <br />
+                            {{products.0.delivaryAddress.state}}
+                            <br />
+                            {{products.0.delivaryAddress.city}}
+                            <br />
+                            {{products.0.delivaryAddress.phone}}
+                            <br />
+                        </span></div>
+                </div>
+                <hr />
+                <div class="d-flex justify-content-between align-items-center product-details">
+                    <div class="d-flex flex-row product-name-image"><img class="rounded"
+                            src="/product-images/{{products.0.item}}.jpg" width="80" />
+                        <div class="d-flex flex-column justify-content-between ml-2">
+                            <div><span class="d-block font-weight-bold p-name">Ralco formal
+                                    shirts for men</span><span class="fs-12">Clothes</span></div><span
+                                class="fs-12">Qty: 1pcs</span>
+                        </div>
+                    </div>
+                    <div class="product-price">
+                        <h5> RS : {{products.0.product.price}}</h5>
+                    </div>
+                </div>
+
+                <div class="mt-5 amount row">
+                    <div class="d-flex justify-content-center col-md-6"><img src="https://i.imgur.com/AXdWCWr.gif"
+                            width="250" height="100" /></div>
+                    <div class="col-md-6">
+                        <div class="billing">
+                            <div class="d-flex justify-content-between"><span>Subtotal</span><span
+                                    class="font-weight-bold">RS :
+                                    {{products.0.product.price}}</span></div>
+                            <div class="d-flex justify-content-between mt-2"><span>Shipping
+                                    fee</span><span class="font-weight-bold">RS : 25</span></div>
+                            <div class="d-flex justify-content-between mt-2"><span>Tax</span><span
+                                    class="font-weight-bold">RS : 15</span></div>
+                            <div class="d-flex justify-content-between mt-2"><span
+                                    class="text-success">Discount</span><span class="font-weight-bold text-success">RS :
+                                    40</span></div>
+                            <hr />
+                            <div class="d-flex justify-content-between mt-1"><span
+                                    class="font-weight-bold">Total</span><span class="font-weight-bold text-success">RS
+                                    :
+                                    {{products.0.product.price}}</span></div>
+                        </div>
+                    </div>
+                </div><span class="d-block">Expected delivery date</span><span
+                    class="font-weight-bold text-success">{{products.0.delivaryAddress.date}}</span><span
+                    class="d-block mt-3 text-black-50 fs-15">We will be sending a shipping confirmation email when the
+                    item is
+                    shipped!</span>
+                <hr />
+                <div class="d-flex justify-content-between align-items-center footer">
+                    <div class="thanks"><span class="d-block font-weight-bold">Thanks for
+                            shopping</span><span>Brostore team</span></div>
+                    <div class="thanks"><span class="d-block font-weight-bold">
+                           
+                        </span></div>
+                    <div class="d-flex flex-column justify-content-end align-items-end"><span
+                            class="d-block font-weight-bold">Need Help?</span><span>Call -
+                            9048086615</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #eee;
+    }
+
+    .fs-12 {
+        font-size: 12px;
+    }
+
+    .fs-15 {
+        font-size: 15px;
+    }
+
+    .name {
+        margin-bottom: -2px;
+    }
+
+    .product-details {
+        margin-top: 13px;
+    }
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+    integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    function generatePDF() {
+        // Choose the element that our invoice is rendered in.
+        const element = document.getElementById('invoice');
+        // Choose the element and save the PDF for our user.
+        html2pdf().from(element).save();
+    }
+</script>

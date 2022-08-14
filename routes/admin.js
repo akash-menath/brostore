@@ -217,7 +217,7 @@ router.get('/add-catogory',function(req,res,next){
     next(err)
   }
 })
-router.post('/add-catogory',function(req,re,next){
+router.post('/add-catogory',function(req,res,next){
   try{
   productHelpers.addcatogory(req.body).then((data)=>{
     if(data){

@@ -17,6 +17,7 @@ const verifyLogin=function(req,res,next){
     res.redirect('/')
   }
 }
+let sarchProduct=null
 
 //************************************home
 router.get('/',async function(req, res, next) { 
@@ -31,10 +32,13 @@ router.get('/',async function(req, res, next) {
   }
   let category= await productHelpers.getAllCategory()
   let banner=await adminHelpers.getBanner()
-  console.log(banner);
   productHelpers.getAllProducts().then((products) =>{
+    if(sarchProduct){
+      products=sarchProduct
+    }
  
   res.render('user/user-index', { layout:'user-layout',user:true,users,products,cartCount,wishlistCount,category,banner})
+  sarchProduct=null;
   })
 }catch(err){
   next(err)
@@ -77,18 +81,37 @@ router.post('/login',(req,res,next)=>{
 
 //**************************************************************signin
 router.get('/signin',(req,res)=>{
-  res.render('user/user-signin',{layout:'user-layout'})
+  if(req.session.loggedIn){
+    res.redirect('/')
+  }else{
+    res.render('user/user-signin',{layout:'user-layout','signinErr': req.session.signinErr})
+    req.session.signinErr=false
+  }
+ 
 })
 router.post('/signin',(req,res,next)=>{
   try{
-  req.session.body=req.body
-  twilioHelpers.dosms(req.session.body).then((data)=>{
-    if(data){
-      res.redirect('/otp')
-    }else{
-      res.redirect('/signin');
-    }
-  })
+   
+    userHelper.existinguser(req.body).then((response)=>{
+      if(response.status){
+        req.session.signin=true
+        req.session.body=req.body
+      
+        twilioHelpers.dosms(req.session.body).then((data)=>{
+          if(data){
+            res.redirect('/otp')
+          }else{
+            res.redirect('/signin');
+          }
+        })
+      }else{ 
+        console.log('rrrrrrrrrrrrrrrrrrrrrrrrrong');
+        req.session.signinErr="email or phone number already registred"
+        res.redirect('/signin')
+      }   
+ })
+
+ 
 }catch(err){
   next(err)
 }
@@ -267,20 +290,7 @@ router.get('/products/:id',async(req,res,next)=>{
     next(err)
   }
 })
-// router.get('/men',(req,res)=>{
-//   let users=req.session.user
-//  userHelper.getMenProduct().then((product)=>{
-//     res.render('user/men',{layout:'user-layout',user:true,product,users})
-//   })
-  
-// })
-// router.get('/women',(req,res)=>{
-//   let users=req.session.user
-//   userHelper.getWomenProduct().then((product)=>{
-//     res.render('user/women',{layout:'user-layout',user:true,product,users})
-//   })
- 
-// })
+
 router.get('/checkout',verifyLogin, async(req,res,next)=>{
   try{
   let users=req.session.user
@@ -372,12 +382,26 @@ router.get('/view-order-products/:id/:pid',verifyLogin,async(req,res,next)=>{
    }
    let category= await productHelpers.getAllCategory()
  let products=await userHelper.getOrderProducts(req.params.id,req.params.pid)
+ console.log(products);
  res.render('user/view-order-product',{layout:'user-layout',user:true,users,products,wishlistCount,cartCount,category})
   }catch(err){
     next(err)
   }
 
 })
+//invoice
+router.get('/invoice/:id/:pid',verifyLogin,async(req,res)=>{
+  let users=req.session.user
+  if(users){
+    cartCount=await userHelper.getCartCount(req.session.user._id)
+    wishlistCount=await userHelper.getWishlistCount(req.session.user._id)
+   }
+   let category= await productHelpers.getAllCategory()
+ let products=await userHelper.getOrderProducts(req.params.id,req.params.pid)
+  res.render('user/invoice',{layout:'user-layout',user:true,users,cartCount,wishlistCount,category,products})
+})
+// invoice print
+
 // online payment
 router.post('/verify-payment',(req,res,next)=>{
   try{
@@ -448,10 +472,17 @@ try{
   next(err)
 }
 })
-//filter
-// router.get('/price-filter/:id/:data',(req,res)=>{
-//   console.log(req.params);
-// })
+//sarch
+router.post('/search',async(req,res,next)=>{
+  try{
+   sarchProduct=await userHelper.searchProducts(req.body.search)
+  res.redirect('/')
+  }catch(err){
+    next(err)
+  }
+})
+
+
 
 //******************************************************************logout
 
