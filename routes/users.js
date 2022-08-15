@@ -481,8 +481,44 @@ router.post('/search',async(req,res,next)=>{
     next(err)
   }
 })
+//forgot otp
+router.get('/email',(req,res)=>{  
+  res.render('user/email',{layout:'user-layout'})
+})
+router.post('/email',(req,res)=>{
+  userHelper.getPhone (req.body.email).then((userData)=>{
+   req.session.body=req.body
+    if(userData.phone){
+      twilioHelpers.dosms(userData).then((data)=>{
+        if(data){
+          res.render('user/forgotOtp',{layout:'user-layout',userData})
+        }else{
+          res.redirect('back');
+        }
+      })
+     
+    }else{
+      res.render('user/email',{layout:'user-layout',userData})
+    }
+  })
+})
+router.post('/forgotOtp',(req,res)=>{
+  
+  twilioHelpers.otpVerify(req.body,req.body).then((response)=>{
+    if(response.valid){
+     res.render('user/ChangePassword',{layout:'user-layout'})
+    }else{
+      res.redirect('/forgototp')
+    }
 
-
+  })
+       
+})
+router.post('/ChangePassword',(req,res)=>{
+  userHelper.updatePassword(req.body,req.session.body).then((response)=>{
+    res.redirect('/login')
+  })
+})
 
 //******************************************************************logout
 

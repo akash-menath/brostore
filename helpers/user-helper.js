@@ -850,5 +850,34 @@ module.exports = {
 
         
         })
+    },
+    //forgot otp
+    getPhone:(Email)=>{
+      return new Promise(async(resolve,reject)=>{
+    let userData=await db.get().collection(collection.user_collection).findOne({email:Email})
+    if(userData){
+        resolve(userData)
+    }else{
+        resolve({otpErr:'Invalid Email Address'})
+    }
+
+    
+      })
+    },
+    // change passwaprd
+      updatePassword:(password,Email)=>{
+        
+        return new Promise(async(resolve,reject)=>{
+            let Password=await bcrypt.hash(password.password, 10)
+            db.get().collection(collection.user_collection).updateOne
+            ( {email:Email.email},{
+                $set:{
+                    password:Password
+                }
+            }).then(()=>{
+                resolve(response)
+            })
+        })
+
     }
 }
