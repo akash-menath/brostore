@@ -135,38 +135,7 @@ module.exports = {
         }
         })
     },
-    // getAllCartProducts: (userId) => {
-    //     return new Promise(async (resolve, reject) => {
-    //         let cartItems = await db.get().collection(collection.cart_collection).aggregate([
-    //             {
-    //                 $match: { user: objectid(userId) },
-    //             }, {
-    //                 $unwind: '$product'
-    //             }, {
-    //                 $project: {
-    //                     item: '$product.item',
-    //                     qty: '$product.qty',
-
-    //                 }
-    //             }, {
-    //                 $lookup: {
-    //                     from: collection.product_collection,
-    //                     localField: 'item',
-    //                     foreignField: '_id',
-    //                     as: 'product'
-    //                 }
-    //             }, {
-    //                 $project: {
-    //                     item: 1, qty: 1, product: { $arrayElemAt: ['$product', 0] }
-
-    //                 },
-    //             }
-
-    //         ]).toArray()
-
-    //         resolve(cartItems)
-    //     })
-    // },
+  
     // azad
     getAllCartProducts: (userId) => {
         return new Promise(async (resolve, reject) => {
@@ -209,6 +178,9 @@ module.exports = {
                     }
                 }
             ]).toArray()
+            console.log('ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd');
+            console.log(cartItems);
+            console.log('ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd');
             resolve(cartItems) 
         }catch(err){
             next(err)
@@ -513,6 +485,7 @@ module.exports = {
         })
     },
     // get cart product
+    
     getCartProducts: (userId) => {
         return new Promise(async (resolve, reject) => {
             try{
@@ -854,20 +827,23 @@ module.exports = {
     //forgot otp
     getPhone:(Email)=>{
       return new Promise(async(resolve,reject)=>{
+        try{
     let userData=await db.get().collection(collection.user_collection).findOne({email:Email})
     if(userData){
         resolve(userData)
     }else{
         resolve({otpErr:'Invalid Email Address'})
     }
-
+        }catch(err){
+            next(err)
+        }
     
       })
     },
     // change passwaprd
       updatePassword:(password,Email)=>{
-        
         return new Promise(async(resolve,reject)=>{
+            try{
             let Password=await bcrypt.hash(password.password, 10)
             db.get().collection(collection.user_collection).updateOne
             ( {email:Email.email},{
@@ -877,6 +853,7 @@ module.exports = {
             }).then(()=>{
                 resolve(response)
             })
+        }catch(err){next(err)}
         })
 
     }

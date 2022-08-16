@@ -27,7 +27,9 @@
 <div class="container mt-5 mb-5" id="invoice">
     <div class="d-flex justify-content-center row">
         <div class="col-md-10">
-            <div class="receipt bg-white p-3 rounded"><img src="https://i.imgur.com/zCAnG06.png" width="120" />
+            <div class="receipt bg-white p-3 rounded">
+                {{!-- <img src="https://i.imgur.com/zCAnG06.png" width="120" /> --}}
+            <div class="receipt bg-white p-3 rounded"> <h3 class="font-italic font-weight-bold">brostore</h3></div>
                 <h4 class="mt-2 mb-3">Your order is confirmed!</h4>
                 <h6 class="name">Hello {{products.0.delivaryAddress.name}},</h6><span class="fs-12 text-black-50">your
                     order has been confirmed and will be shipped in two days</span>
@@ -68,9 +70,10 @@
                     </div>
                 </div>
 
-                <div class="mt-5 amount row">
+                <div class="mt-3 amount row">
                     <div class="d-flex justify-content-center col-md-6"><img src="https://i.imgur.com/AXdWCWr.gif"
                             width="250" height="100" /></div>
+                            
                     <div class="col-md-6">
                         <div class="billing">
                             <div class="d-flex justify-content-between"><span>Subtotal</span><span
@@ -92,7 +95,7 @@
                     </div>
                 </div><span class="d-block">Expected delivery date</span><span
                     class="font-weight-bold text-success">{{products.0.delivaryAddress.date}}</span><span
-                    class="d-block mt-3 text-black-50 fs-15">We will be sending a shipping confirmation email when the
+                    class="d-block mt-2 text-black-50 fs-15">We will be sending a shipping confirmation email when the
                     item is
                     shipped!</span>
                 <hr />

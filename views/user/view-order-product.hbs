@@ -13,28 +13,67 @@
                     <div class="col"> <strong>Shipping BY:</strong> <br> BLUEDART, | <i class="fa fa-phone"></i>
                         +1598675986 </div>
                     <div class="col"> <strong>Status:
-                          </strong> <br>delivarystatus :44 {{products.[0].products.Status}}<br> status : </div>
+                          </strong> <br>delivarystatus : {{products.[0].Status}}<br> status :  {{products.[0].Status}}</div>
+                          {{#when products.[0].Status 'noteq' 'Cancelled'}}
                     <div class="col"> <strong>Tracking #:</strong> <br> BD045903594059 </div>
-                    <div class="col"> <a class=" btn btn-lg" href="/invoice/{{products.[0]._id}}/{{products.[0].item}}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                    <div class="col"> <a class=" btn btn-lg" href="/invoice/{{products.[0]._id}}/{{products.[0].item}}"><a  href="/invoice/{{products.[0]._id}}/{{products.[0].item}}" class="text-decoration-none invoice-link">View
+                  Invoice</a>
+                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
   <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
   <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
 </svg></a></div>
-                       
+{{/when}}
+{{#when products.[0].Status 'eq' 'Cancelled'}}
+<div><h5 class="text-danger">Order cancelled </h5></div>
+{{/when}}
+ 
                 </div>
             </article>
             <div class="track">
          
 
-        
-                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span
-                        class="text">Order confirmed</span> </div>
-                <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">
-                        Picked by courier</span> </div>
-                <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> On the
-                        way </span> </div>
-                <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Deliverd
-                        pickup</span> </div>
+        {{#when products.[0].Status 'eq' 'pending'}}
+                <div class="step active"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">order pending</span> </div>
+                <div class="step "> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order placed</span> </div>
+                <div class="step "> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order shipped</span> </div>
+                <div class="step "> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Deliverd</span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Order Cancelled </span> </div>
+              {{/when}}
+              
+        {{#when products.[0].Status 'eq' 'Placed'}}
+                <div class="step active"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">order pending</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order placed</span> </div>
+                <div class="step "> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order shipped</span> </div>
+                <div class="step "> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Deliverd</span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Order Cancelled </span> </div>
+              {{/when}}
+
                       
+        {{#when products.[0].Status 'eq' 'Shipped'}}
+                <div class="step active"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">order pending</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order placed</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order shipped</span> </div>
+                <div class="step "> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Deliverd</span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Order Cancelled </span> </div>
+              {{/when}}
+
+               {{#when products.[0].Status 'eq' 'Deliverd'}}
+                <div class="step active"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">order pending</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order placed</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order shipped</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Deliverd</span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Order Cancelled </span> </div>
+              {{/when}}
+
+
+                {{#when products.[0].Status 'eq' 'Cancelled'}}
+                <div class="step "> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">order pending</span> </div>
+                <div class="step "> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order placed</span> </div>
+                <div class="step "> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order shipped</span> </div>
+                <div class="step "> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Deliverd</span> </div>
+                <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> Order Cancelled </span> </div>
+              {{/when}}
+       
                     
             </div>
             <hr>
@@ -72,14 +111,14 @@
                 </div>
             </div>
 
-
+{{#when products.[0].Status 'noteq' 'Cancelled'}}
             <div class="aaa">
                
-                 <a href="/cancelOrder/{{this.userId}}/{{products.item}}" data-abc="true" class="btn btn-danger">Cancel Order<i
+                 <a href="/cancelOrder/{{products.[0]._id}}/{{products.[0].item}}" data-abc="true" class="btn btn-danger">Cancel Order<i
                     class="fa fa-chevron-right"></i></a>
-                    <p>{{products.[0]._id}},,{{products.[0].item}}</p>
+                
             </div>
-
+{{/when}}
         
             
            

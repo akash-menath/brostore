@@ -191,6 +191,8 @@ router.get('/add-to-wishlist/:id',verifyLogin,(req,res,next)=>{
    //get cart
   router.get('/cart',verifyLogin,async(req,res,next)=>{
     try{
+      let cartCount=0
+  let wishlistCount=0
     let users=req.session.user
     if(users){
       cartCount=await userHelper.getCartCount(req.session.user._id)
@@ -234,6 +236,8 @@ router.get('/add-to-wishlist/:id',verifyLogin,(req,res,next)=>{
     router.get('/wishlist',verifyLogin,async(req,res,next)=>{
       try{
       let users=req.session.user
+      let cartCount=0
+  let wishlistCount=0
       if(users){
         cartCount=await userHelper.getCartCount(req.session.user._id)
         wishlistCount=await userHelper.getWishlistCount(req.session.user._id)
@@ -293,6 +297,8 @@ router.get('/products/:id',async(req,res,next)=>{
 
 router.get('/checkout',verifyLogin, async(req,res,next)=>{
   try{
+    let cartCount=0
+  let wishlistCount=0
   let users=req.session.user
   if(users){
     cartCount=await userHelper.getCartCount(req.session.user._id)
@@ -318,11 +324,11 @@ router.get('/checkout',verifyLogin, async(req,res,next)=>{
 router.post('/checkout',async(req,res,next)=>{
  try{
   let userId=''+req.body.userId
+  // ppppppppppppprrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
   let products= await userHelper.getCartProducts(userId)
    products=products.product
   let totalPrice=await userHelper.getCartTotal(userId)
   let address=await userHelper.getDelivaryAddress(userId,req.body.address)
- console.log(address);
   userHelper.placeOrder(req.body,products,totalPrice,address).then((orderId)=>{
 
     if(req.body['payment-method']==='COD'){
@@ -332,8 +338,6 @@ router.post('/checkout',async(req,res,next)=>{
       userHelper.generateRazorpay(orderId,totalPrice).then((response)=>{
         console.log('raserpay');
         res.json(response)
-      
-        console.log(response);
       })
       
     }
@@ -360,6 +364,8 @@ router.get('/paymentSucess',verifyLogin,async(req,res,next)=>{
 router.get('/viewOrders',verifyLogin,async(req,res,next)=>{
   try{
   let users=req.session.user
+  let cartCount=0
+  let wishlistCount=0
   if(users){
     cartCount=await userHelper.getCartCount(req.session.user._id)
     wishlistCount=await userHelper.getWishlistCount(req.session.user._id)
@@ -376,6 +382,8 @@ router.get('/viewOrders',verifyLogin,async(req,res,next)=>{
 router.get('/view-order-products/:id/:pid',verifyLogin,async(req,res,next)=>{
   try{
   let users=req.session.user
+  let cartCount=0
+  let wishlistCount=0
   if(users){
     cartCount=await userHelper.getCartCount(req.session.user._id)
     wishlistCount=await userHelper.getWishlistCount(req.session.user._id)
@@ -421,7 +429,7 @@ userHelper.changePaymentStatus(req.body['order[receipt]']).then(()=>{
 // delete order product
 router.get('/cancelOrder/:id/:pid',verifyLogin,(req,res,next)=>{
   try{
- userHelper.cancelOrder(req.params.id,req.params.pid).then(()=>{
+ userHelper.cancelOrder(req.session.user._id,req.params.pid).then(()=>{
  res.redirect('/viewOrders')
  })
 }catch(err){
@@ -450,13 +458,15 @@ router.get('/shop', async(req,res,next)=>{
 router.get('/userProfile',verifyLogin,async(req,res,next)=>{
   try{
   let users=req.session.user
+  let cartCount=0
+  let wishlistCount=0
   if(users){
     cartCount=await userHelper.getCartCount(req.session.user._id)
     wishlistCount=await userHelper.getWishlistCount(req.session.user._id)
    }
    let category= await productHelpers.getAllCategory()
    let data=await userHelper.getUserDetails(req.session.user._id)
-  res.render('user/userprofile',{layout:'user-layout',user:true,users,wishlistCount,cartCount,data,category})
+  res.render('user/userProfile',{layout:'user-layout',user:true,users,wishlistCount,cartCount,data,category})
   }catch(err){
     next(err)
   }
@@ -486,6 +496,7 @@ router.get('/email',(req,res)=>{
   res.render('user/email',{layout:'user-layout'})
 })
 router.post('/email',(req,res)=>{
+  try{
   userHelper.getPhone (req.body.email).then((userData)=>{
    req.session.body=req.body
     if(userData.phone){
@@ -501,8 +512,12 @@ router.post('/email',(req,res)=>{
       res.render('user/email',{layout:'user-layout',userData})
     }
   })
+}catch(err){
+  next(err)
+}
 })
 router.post('/forgotOtp',(req,res)=>{
+  try{
   
   twilioHelpers.otpVerify(req.body,req.body).then((response)=>{
     if(response.valid){
@@ -512,12 +527,19 @@ router.post('/forgotOtp',(req,res)=>{
     }
 
   })
+}catch(err){
+  next(err)
+}
        
 })
 router.post('/ChangePassword',(req,res)=>{
+  try{
   userHelper.updatePassword(req.body,req.session.body).then((response)=>{
     res.redirect('/login')
   })
+}catch(err){
+  next(err)
+}
 })
 
 //******************************************************************logout
