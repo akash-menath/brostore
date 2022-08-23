@@ -611,7 +611,7 @@ router.post('/check-coupon',async(req, res, next) => {
   // let totalAmount = await userHelper.getTotalAmount(userId)
   let totalPrice=await userHelper.getCartTotal(userId)
   console.log(totalPrice);
-  userHelper.checkCoupon(couponCode,totalPrice).then((response) => {
+  userHelper.checkCoupon(couponCode,totalPrice,userId).then((response) => {
     console.log(response);
       res.json(response)
   }).catch((response) => {
