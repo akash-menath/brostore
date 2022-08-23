@@ -127,17 +127,17 @@
                 {{/if}}
 
                 {{#if User}}
-                <a href="/admin/users" class="nav-item nav-link active"><i class="fa fa-table me-2"></i>Users</a>
+                <a href="/admin/users" class="nav-item nav-link active"><i class="fa fa-users me-2"></i>Users</a>
                 {{else}}
-                <a href="/admin/users" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Users</a>
+                <a href="/admin/users" class="nav-item nav-link"><i class="fa fa-users me-2"></i>Users</a>
                 {{/if}}
 
 
 
                 {{#if Product}}
-                <a href="/admin/products" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>products</a>
+                <a href="/admin/products" class="nav-item nav-link active"><i class="fa fa-file-alt me-2"></i>products</a>
                 {{else}}
-                <a href="/admin/products" class="nav-item nav-link"><i class="fa fa-th me-2"></i>products</a>
+                <a href="/admin/products" class="nav-item nav-link"><i class="fa fa-file-alt me-2"></i>products</a>
                 {{/if}}
 
                 {{#if Category}}
@@ -158,6 +158,13 @@
                 {{else}}
                 <a href="/admin/order-details" class="nav-item nav-link"><i class="fa fa-th me-2"></i>order Status</a>
                 {{/if}}
+
+               {{#if coupon}}
+                <a href="/admin/coupon" class="nav-item nav-link active"><i class="fa fa-address-card me-2"></i>Coupon </a>
+               {{else}}  
+               <a href="/admin/coupon" class="nav-item nav-link"><i class="fa fa-address-card me-2"></i>Coupon </a>
+                {{/if}}
+
 
 
 

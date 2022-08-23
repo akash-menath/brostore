@@ -26,7 +26,7 @@ module.exports = {
                 resolve(data.insertedId)
             })
         }catch(err){
-            next(err)
+            reject(err)
         }
         })
     },
@@ -36,18 +36,22 @@ module.exports = {
             let userdetails = await db.get().collection(collection.user_collection).find().sort({ name: 1 }).toArray()
             resolve(userdetails)
             }catch(err){
-                next(err)
+                reject(err)
             }
         })
     },
     existinguser:(userData)=>{
       return new Promise(async(resolve,reject)=>{
-        let user = await db.get().collection(collection.user_collection).findOne({ email: userData.email,phone:userData.phone})
+        try{
+        let user = await db.get().collection(collection.user_collection).findOne({email:userData.email})
         if(user){
             resolve({status:false})
         }else{
-            resolve({status:true})
+            resolve({status:true})  
         }
+    }catch(err){
+        reject(err)
+    }
       })
     },
 
@@ -79,7 +83,7 @@ module.exports = {
                 resolve({ status: false })
             }
         }catch(err){
-            next()
+            reject(err)
         }
         })
     },
@@ -131,7 +135,7 @@ module.exports = {
                 })
             }
         }catch(err){
-            next(err)
+            reject(err)
         }
         })
     },
@@ -183,7 +187,7 @@ module.exports = {
             console.log('ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd');
             resolve(cartItems) 
         }catch(err){
-            next(err)
+            reject(err)
         }
         })
     },
@@ -197,7 +201,7 @@ module.exports = {
             }
             resolve(count)
         }catch(err){
-            next(err)
+            reject(err)
         }
         })
     },
@@ -214,7 +218,7 @@ module.exports = {
 
                 })
             }catch(err){
-                next(err)
+                reject(err)
             }
         })
     },
@@ -248,7 +252,7 @@ module.exports = {
 
             }
         }catch(err){
-            next(err)
+            reject(err)
         }
         })
     },
@@ -293,7 +297,7 @@ module.exports = {
                 resolve(total[0].total)
             }
         }catch(err){
-            next(err)
+            reject(err)
         }
 
 
@@ -380,7 +384,7 @@ module.exports = {
                 })
             }
         }catch(err){
-            next(err)
+            reject(err)
         }
 
         })
@@ -415,7 +419,7 @@ module.exports = {
             ]).toArray()
             resolve(cartItems)
         }catch(err){
-            next(err)
+            reject(err)
         }
         })
     },
@@ -429,7 +433,7 @@ module.exports = {
             }
             resolve(count)
         }catch(err){
-            next(err)
+            reject(err)
         }
         })
         
@@ -447,7 +451,7 @@ module.exports = {
 
                 })
             }catch(err){
-                next(err)
+                reject(err)
             }
         })
     },
@@ -458,7 +462,7 @@ module.exports = {
                 resolve(data)
             })
         }catch(err){
-            next(err)
+            reject(err)
         }
         })
     },
@@ -469,7 +473,7 @@ module.exports = {
                 resolve(product)
             })
         }catch(err){
-            next(err)
+            reject(err)
         }
         })
     },
@@ -480,7 +484,7 @@ module.exports = {
                 resolve(product)
             })
         }catch(err){
-            next(err)
+            reject(err)
         }
         })
     },
@@ -492,12 +496,16 @@ module.exports = {
             products = await db.get().collection(collection.cart_collection).findOne({ user: objectid(userId) })
             resolve(products)
             }catch(err){
-                next(err)
+                reject(err)
             }
         })
 
     },
-    placeOrder: (order,products,totalPrice,address) => {
+    placeOrder: (order,products,address) => {
+        console.log('place order i usser helpers');
+        console.log(order);
+       
+       
 
         return new Promise((resolve, reject) => {
             try{
@@ -507,7 +515,10 @@ module.exports = {
                     name:address.name,
                     state:address.State,
                     address:address.Address,
-                    totalAmount: parseInt(totalPrice),
+                    totalAmount: parseInt(order.total),
+                    discountPercentage:parseInt(order.percentage),
+                    discount:parseInt(order.discount),
+                   
                     city:address.City,
                     pincode:address.Pincode,
                     phone:address.phone,
@@ -523,6 +534,14 @@ module.exports = {
             }
             db.get().collection(collection.Order_collection).insertOne(orderObject).then((response) => {
                 db.get().collection(collection.cart_collection).deleteOne({ user: objectid(order.userId) })
+                if(order.discount){
+                    db.get().collection(collection.user_collection).updateOne({_id:objectid(order.userId)},{
+                        $set:{
+                            coupon:true
+                        }
+                    })
+                }
+                
 
                 // for (i = 0; i < products.length; i++) {
                 //     db.get().collection(collection.product_collection).updateOne({ _id: objectid(products[i].item) }, {
@@ -535,7 +554,7 @@ module.exports = {
 
             })
         }catch(err){
-            next(err)
+            reject(err)
         }
 
         })
@@ -554,18 +573,34 @@ module.exports = {
                     '$unwind': {
                         'path': '$products'
                     }
-                }, {
+                },
+        
+                {
                     '$lookup': {
                         'from': 'product',
                         'localField': 'products.item',
                         'foreignField': '_id',
                         'as': 'result'
                     }
-                }, {
+                },
+                 {
                     $unwind: {
                         'path': '$result',
                     }
-                },{
+                },
+                {
+                    '$addFields': {
+                        'productTotal': {
+                            '$sum': {
+                                '$multiply': [
+                                    '$products.qty', '$result.price'
+                                ]
+                            }
+                        }
+                    }
+                },
+
+                {
                     $sort:{
                         'delivaryAddress.time':-1
 
@@ -574,11 +609,10 @@ module.exports = {
 
 
             ]).toArray()
-            console.log('cheking irder products');
-            console.log(orderProduct);
+           
             resolve(orderProduct)
         }catch(err){
-            next(err)
+            reject(err)
         }
         })
     },
@@ -621,36 +655,36 @@ module.exports = {
 
             resolve(orderItems)
         }catch(err){
-            next(err)
+            reject(err)
         }
            
         })
     },
     // cancel order
-    cancelOrder: (usersId, proId) => {
+    cancelOrder: (orderId, proId) => {
         return new Promise((resolve, reject) => {
-            try{
-            db.get().collection(collection.Order_collection).updateOne({ userId: objectid(usersId), 'products.item': objectid(proId) },
-                {
-                    $set: {
-                        'products.$.Status': 'Cancelled',
-                        'products.$.active': false
-                    }
-                }
-            ).then(() => {
-                resolve()
-            })
+          try{
+          db.get().collection(collection.Order_collection).updateOne({ _id: objectid(orderId), 'products.item': objectid(proId) },
+            {
+              $set: {
+                'products.$.Status':'Cancelled',
+                'products.$.active': false
+              }
+            }
+          ).then(() => {
+            resolve()
+          })
         }catch(err){
-            next(err)
+          reject(err)
         }
         })
-
-    },
+    
+      },
     generateRazorpay: (orderId, total) => {
         return new Promise((resolve, reject) => {
             try{
             var options = {
-                amount: total,
+                amount: total*100,
                 currency: "INR",
                 receipt: "" + orderId
             };
@@ -719,8 +753,7 @@ module.exports = {
         })
     },
     // addressssssssssssssss
-    addAddress: (userId, data) => {
-        
+    addDeliveryAddress: (userId, data) => {
         let addressId = new objectid()
         data.adressId = addressId,
         data.date= Date.now()
@@ -748,6 +781,28 @@ module.exports = {
         }
             })
     },
+    addAddress: (userId, data) => {
+        return new Promise(async (resolve, reject) => {
+            try{
+            db.get().collection(collection.user_collection).updateOne({_id:objectid(userId)},{
+                $set:{
+                    name:data.name,  
+                    Address:data.Address,
+                    pincode:data.Pincode,
+                    state:data.State,
+                    city:data.City
+                }
+            }).then((response)=>{
+                resolve(response)
+                console.log('response');
+                console.log(response);
+            })
+          
+        }catch(err){
+          reject(err)
+        }
+            })
+    },
     getAddress: (userId) => {
         return new Promise(async (resolve, reject) => {
             try{
@@ -766,14 +821,14 @@ module.exports = {
                   }
                 }, {
                   $sort: {
-                    date: -1
+                    date:1
                   }
                 }
               ]).toArray()
-         address=address.slice(-3)
+         address=address.slice(-2)
             resolve(address)
             }catch(err){
-                next(err)
+                reject(err)
             }
         })
     },
@@ -795,13 +850,13 @@ module.exports = {
                   }
                 }, {
                   $project: {
-                    address: 1
+                    address:1
                   }
                 }
               ]).toArray()    
                 resolve(address[0].address)
             }catch(err){
-                next(err)
+                reject(err)
             }
               
             
@@ -811,9 +866,9 @@ module.exports = {
         return new Promise(async(resolve,reject)=>{
             sarchProduct=await db.get().collection(collection.product_collection).find({
                 '$or':[
-                    {name:{$regex:data,$options:'i'}},
-                    {category:{$regex:data,$options:'i'}},
-                    {Price:{$regex:data,$options:'i'}}
+                    {name:{$regex:data,$options:'m'}},
+                    {category:{$regex:data,$options:'m'}},
+                    {price:{$regex:data,$options:'m'}}
 
                 ]
 
@@ -856,5 +911,58 @@ module.exports = {
         }catch(err){next(err)}
         })
 
-    }
+    },
+    checkCoupon: (code, amount) => {
+        const coupon = code.toString().toUpperCase();
+
+        console.log(coupon);
+
+        return new Promise(async(resolve, reject) => {
+          let user=await db.get().collection(collection.user_collection).findOne({coupon:true})
+          if(user){
+            console.log('already used coupan');
+            reject({ status: false })
+          }else{
+            console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuussssssssssssssserrrrrrrrrrrrrrrr');
+            db.get().collection(collection.COUPON_collection).findOne({ name: coupon }).then((response) => {
+                console.log(response);
+                console.log('from db');
+                if (response == null) {
+                    // let response = {status : false}
+                    console.log(response + " null resp");
+                    reject({ status: false })
+                } else {
+                    let offerPrice = parseFloat(amount * response.offer/100)
+                    let offer = parseInt(response.offer)
+                    // let discountPrice = amount - offerPrice
+                    let newTotal = parseInt(amount - offerPrice)
+                    // response = {
+                    //     amount: newTotal,
+                    //     discount: discountPrice
+                    // }
+                    console.log(" Nonnull resp");
+                    resolve(response = {
+                        couponCode: coupon,
+                        status: true,
+                        amount: newTotal,
+                        discount: offerPrice,
+                        offerPercentage:offer
+                    })
+                }
+            })
+          }
+           
+        })
+    },
+    getCoupon:()=>{
+        return new Promise((resolve,reject)=>{
+          db.get().collection(collection.COUPON_collection).find().sort({time:-1}).toArray().then((response)=>{
+            resolve(response)
+          })
+          console.log(123);
+         
+        })
+      },
+
+
 }

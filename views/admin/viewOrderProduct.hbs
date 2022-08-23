@@ -20,20 +20,59 @@
          
                     <div class="product__details__text">
                         <h3>{{products.[0].product.name}} <span>Brand:{{products.[0].product.description}} </span></h3>
-                        <div class="rating">
+                        {{!-- <div class="rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <span>( 138 reviews )</span>
-                        </div>
+                        </div> --}}
                         
                         <div class="product__details__price"> Price : {{products.[0].product.price}}</div>
                         <h4>  Quantity : {{products.[0].qty}}</h5><br>
+
+                     {{#if products.[0].delivaryAddress.discount}}
+                    <td>Sub Total :{{products.[0].total}}</td><br>
+                    <td>Discount :{{products.[0].discount}}</td><br>
+                    <td>Total : {{products.[0].finaltotal}}</td>
+                    {{else}}
+                    <td>{{products.[0].total}}</td>
+                    {{/if}}
+
+
+
                         <h4> payment Method : {{products.[0].paymentMethod}}</h5><br>
-                        <div class="product__details__price">Delivary Status : {{products.[0].Status}}</div>
-                       <h4>Delivary Address</h4><br>
+                        <div class="product__details__price">Delivery Status : {{products.[0].Status}}</div>
+
+           
+                         <ol class="progtrckr" data-progtrckr-steps="4">
+                             {{#when products.[0].Status 'eq' 'pending'}}
+                                <li class="progtrckr-done">Pending</li>
+                                <li class="progtrckr-todo">Placed</li>
+                                <li class="progtrckr-todo">Shipped</li>
+                                <li class="progtrckr-todo">Delivered</li>
+                                 {{/when}}
+                                {{#when products.[0].Status 'eq' 'Placed'}}
+                                 <li class="progtrckr-done">Pending</li>
+                                <li class="progtrckr-done">Placed</li>
+                                <li class="progtrckr-todo">Shipped</li>
+                                <li class="progtrckr-todo">Delivered</li>
+                                 {{/when}}
+                                {{#when products.[0].Status 'eq' 'Shipped'}}
+                                  <li class="progtrckr-done">Pending</li>
+                                <li class="progtrckr-done">Placed</li>
+                                <li class="progtrckr-done">Shipped</li>
+                                <li class="progtrckr-todo">Delivered</li>
+                                 {{/when}}
+                                {{#when products.[0].Status 'eq' 'Deliverd'}}
+                                    <li class="progtrckr-done">Pending</li>
+                                <li class="progtrckr-done">Placed</li>
+                                <li class="progtrckr-done">Shipped</li>
+                                <li class="progtrckr-done">Delivered</li>
+                                {{/when}}
+                            </ol> <br>
+                       <h4>Delivery Address</h4><br>
 
                        <h6> Name : {{products.[0].delivaryAddress.name}}</h6>
                        <h6> Address : {{products.[0].delivaryAddress.address}}</h6>
@@ -54,3 +93,69 @@
            
         </div>
     </section>
+
+
+
+
+<style>
+
+    ol.progtrckr {
+    margin: 0;
+    padding: 0;
+    list-style-type none;
+}
+
+ol.progtrckr li {
+    display: inline-block;
+    text-align: center;
+    line-height: 3.5em;
+}
+
+ol.progtrckr[data-progtrckr-steps="2"] li { width: 49%; }
+ol.progtrckr[data-progtrckr-steps="3"] li { width: 33%; }
+ol.progtrckr[data-progtrckr-steps="4"] li { width: 24%; }
+ol.progtrckr[data-progtrckr-steps="5"] li { width: 19%; }
+ol.progtrckr[data-progtrckr-steps="6"] li { width: 16%; }
+ol.progtrckr[data-progtrckr-steps="7"] li { width: 14%; }
+ol.progtrckr[data-progtrckr-steps="8"] li { width: 12%; }
+ol.progtrckr[data-progtrckr-steps="9"] li { width: 11%; }
+
+ol.progtrckr li.progtrckr-done {
+    color: rgb(122, 121, 123);
+    border-bottom: 4px solid yellowgreen;
+}
+ol.progtrckr li.progtrckr-todo {
+    color: silver; 
+    border-bottom: 4px solid silver;
+}
+
+ol.progtrckr li:after {
+    content: "\00a0\00a0";
+}
+ol.progtrckr li:before {
+    position: relative;
+    bottom: -2.5em;
+    float: left;
+    left: 50%;
+    line-height: 1em;
+}
+ol.progtrckr li.progtrckr-done:before {
+    content: "\2713";
+    color: white;
+    background-color: yellowgreen;
+    height: 2.2em;
+    width: 2.2em;
+    line-height: 2.2em;
+    border: none;
+    border-radius: 2.2em;
+}
+ol.progtrckr li.progtrckr-todo:before {
+    content: "\039F";
+    color: silver;
+    background-color: white;
+    font-size: 2.2em;
+    bottom: -1.2em;
+}
+
+
+</style>

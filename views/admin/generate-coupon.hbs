@@ -1,0 +1,38 @@
+
+
+
+
+
+
+<section>
+  <div class=" container row">
+    <div class="ml-5 col-md-6">
+      <h2 class="text-center mt-5">Add Coupan</h2>
+      <form action="/admin/generate-coupon" method="post" enctype="multipart/form-data" class="text-danger" id="addProduct">
+
+        <label class="text-dark" for="">Coupon Code</label>
+        <input type="text" name="name" class="form-control" placeholder="Enter coupon name" oninput="this.value= this.value.toLocaleUpperCase()"  required><br>
+
+      
+
+        <label for="" class="text-dark">Offer</label>
+        <input type="text" name="offer" class="form-control"  placeholder="Enter offer % "     required><br>
+
+        <label for="" class="text-dark">Validity</label>
+        <input type="date"placeholder="Coupon expiry in days" name="validity" class="form-control" required><br>
+        {{#if couponERR.err}}
+        <p class="text-danger">{{couponERR.err}}</p>
+        {{/if}}
+
+        <button type="submit" class="btn btn-success mt-4">Submit</button>
+
+      </form>
+    </div>
+  </div>
+</section>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+<script>
+  $("#addProduct").validate();
+</script>

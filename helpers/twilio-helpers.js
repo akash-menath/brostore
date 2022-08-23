@@ -8,6 +8,8 @@ const serviceSid=process.env.TWILIO_SERVICE_SID
                    dosms:(noData)=>{
                     let res={}
                     return new Promise(async(resolve,reject)=>{
+                        try{
+                            console.log('hello');
                        await client.verify.services(serviceSid).verifications.create({
                             to :`+91${noData.phone}`,
                             channel:"sms"
@@ -16,11 +18,15 @@ const serviceSid=process.env.TWILIO_SERVICE_SID
                             resolve(res)
                             console.log(res);
                         })
+                    }catch(err){
+                        reject(err)
+                    }
                     })
                 },
                 otpVerify:(otpData,nuData)=>{
                     let resp={}
                     return new Promise(async(resolve,reject)=>{
+                        try{
                        await client.verify.services(serviceSid).verificationChecks.create({
                             to:   `+91${nuData.phone}`,
                             code:otpData.otp
@@ -29,6 +35,9 @@ const serviceSid=process.env.TWILIO_SERVICE_SID
                             console.log(resp);
                             resolve(resp)
                         })
+                    }catch(err){
+                        reject(err)
+                    }
                     })
                 }
 

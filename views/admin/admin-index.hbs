@@ -33,7 +33,7 @@
                 <i class="fa fa-chart-pie fa-3x text-primary"></i>
                 <div class="ms-3">
                     <p class="mb-2">Total Order</p>
-                    <h6 class="mb-0">{{ totalOrder}}</h6>
+                    <h6 class="mb-0">{{totalOrder}}</h6>
                 </div>
             </div>
         </div>
@@ -108,7 +108,7 @@
             labels: ['COD', 'Razorpay'],
             datasets: [{
                 label: 'payment methods',
-                data: [{{ totalCod}},{{OnlinePymentcount}}],
+                data: [{{totalCod}},{{OnlinePymentcount}}],
                 backgroundColor: [
                     'rgba(255,99,132,1)',
                     'rgba(54,162,235,1)',
@@ -126,13 +126,14 @@
     var myChart = new Chart(earning, {
         type: 'bar',
         data: {
-            labels: ['Placed', 'Shipped', 'Delivered', 'Cancelled',],
+            labels: ['pending' ,'Placed', 'Shipped', 'Delivered', 'Cancelled',],
             datasets: [{
                 label: 'Order Status',
-                data: [{{Placed.[0].number}},{{Shipped.[0].number}},{{Deliverd.[0].number}},{{Cancelled.[0].number}}],
+                data: [{{pending.[0].number}},{{Placed.[0].number}},{{Shipped.[0].number}},{{Deliverd.[0].number}},{{Cancelled.[0].number}}],
                 backgroundColor: [
                     'rgba(255, 206, 86, 1)',
                     'rgba(54, 162, 235, 1)',
+                    'rgba(255,99,132,1)',
                     'rgba(60, 170, 70, 1)',
                     'rgba(255, 0, 0, 1)',
                 ],

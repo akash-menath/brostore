@@ -2,16 +2,31 @@
 <section class="">
   <div class="container">
     <div class="row">
-      {{!-- <div class="col-lg-12">
+      <div class="col-lg-12">
         <h6 class="coupon__link">
           <span class="icon_tag_alt"></span>
-          <a href="#">Have a coupon?</a> Click here to enter your code.
+          <a onclick="getcoupon()">Click here to get your coupon code.</a>
+          <label id="kk" hidden>{{this.coupon.0.name}}</label>
         </h6>
-      </div> --}}
+
+           {{!-- coupon --}}
+          <div class="col-lg-6 ">    
+                <div class="discount__content mt-5 ">
+                    <h6>Coupon codes</h6>
+                    <form>
+                        <input type="text" placeholder="Enter your coupon code" name="Coupon_Code" id="couponInput">
+                         <div><span id="couponValid"></span></div>
+                        <button onclick="couponCheck(event)" type="submit" class="site-btn">Apply</button>
+                    </form>
+                </div>
+          </div>
+              {{!-- coupon --}}
+        
+      </div>
     </div>
 
 
-
+          
 
     <!-- Shoping Cart -->
     <div class="bg0 p-t-75 p-b-85 mt-5">
@@ -27,7 +42,7 @@
                 </button><br><br>
                 <h4 class="mb-3">Delivery address</h4>
                 <div class="collapse col-md-10 col-lg-12" id="collapseExample">
-                  <form action="/add-address" id="address-form" method="post">
+                  <form action="/add-deliveryAddress" id="address-form" method="post">
 
                     <div class="needs-validation">
                       <div class="row">
@@ -78,7 +93,7 @@
                                   <p class="mb-0">State</p>
                                 </div>
                                 <div class="col-sm-9">
-                                  <input type="text" name="State"value="{{data.State}}" required>
+                                  <input type="text" name="State"value="{{data.state}}" required>
                                 </div>
                               </div>
                               <hr>
@@ -87,7 +102,7 @@
                                   <p class="mb-0">City</p>
                                 </div>
                                 <div class="col-sm-9">
-                                  <input type="text" name="City"value="{{data.City}}" required>
+                                  <input type="text" name="City"value="{{data.city}}" required>
                                 </div>
                               </div>
                               <hr>
@@ -96,11 +111,9 @@
                                   <p class="mb-0">Pincode</p>
                                 </div>
                                 <div class="col-sm-9">
-                                  <input type="number" name="Pincode" maxlength="6"required>
+                                  <input type="number" name="Pincode"value="{{data.pincode}}" maxlength="6"required>
                                 </div>
                               </div>
-
-
 
                             </div>
                           </div>
@@ -109,37 +122,23 @@
                         </div>
                       </div>
 
-
-
-
                     </div>
                   </form>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
 
               </div>
               <form id="Checkout-form">
                 <input type="text" name="userId" value="{{user._id}}" hidden>
                 {{#each address}}
                 <div class="form-check mt-4">
-                  <input class="form-check-input" type="radio" value="{{address.adressId}}" name="address"  id="" required>
+                  <input class="form-check-input" type="radio" checked="checked" value="{{address.adressId}}" name="address"  id="" required>
                   <p>
                     <span>Name : {{address.name}}</span>
 
                     <br>
                     <span>Email : {{address.email}}</span>
                     <br>
-                    <span>Phone : {{address.Phone}}</span>
+                    <span>Phone : {{address.phone}}</span>
                     <br>
                     <span>Address : {{address.Address}}</span>
                     <br>
@@ -154,19 +153,7 @@
                   </p>
                 </div>
                 {{/each}}
-                <div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
-
-                  <div class="flex-w flex-m m-r-20 m-tb-5">
-                    {{!-- <input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text"
-                      name="coupon" placeholder="Coupon Code">
-
-                    <div class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
-                      Apply coupon
-                    </div> --}}
-                  </div>
-
-
-                </div>
+                
             </div>
           </div>
 
@@ -188,13 +175,16 @@
 
 
                   </ul>
-                </div>
+                </div>  
                 <div class="checkout__order__total">
                   <ul>
-                    <li>Subtotal <span>RS : {{this.total}}</span></li>
-                    <li>Delivary Charge <span> Free</span></li>
-                    <input type="text" id="" name="total" value="{{total}}" hidden />
-                    <li>Total <span>RS : {{this.total}}</span></li>
+                    <li>Subtotal <span> {{this.total}}</span></li>
+                    <li>Delivary Charge <span class="text-success"> Free</span></li>
+                    <li>Discount <span id="totaldiscount"class="text-success"></span></li>
+                    <input type="hidden" id="Total" value="{{this.total}}" name="total"/>
+                    <input type="hidden" id="percentage" name="percentage"/>
+                    <input type="hidden" id="discount" name="discount"/>
+                    <li>Total <span>RS : <span  id="totalPrice" > {{this.total}}</span></span> </li>
 
                   </ul>
                 </div>
@@ -203,8 +193,8 @@
 
                   <label for="check-payment">
                     Cash On Delivery
-                    <input type="radio" id="check-payment" value="COD" name="payment-method" required/>
-                    <span class="checkmark" required></span>
+                    <input type="radio" id="check-payment" checked="checked" value="COD" name="payment-method"  required/>
+                    <span class="checkmark" ></span>
                   </label>
 
                   <label for="paypal">
@@ -309,3 +299,51 @@
   $("#Checkout-form").validate();
 
 </script>
+
+{{!-- coupon script --}}
+
+<script>
+                    function couponCheck(event){
+                      event.preventDefault()
+                        let code = $('#couponInput').val()
+                        console.log(code)
+                        $.ajax({
+                            url:'/check-coupon',
+                            data: {
+                                coupon: code,
+                            },
+                            method: 'post',
+                            success: (response) => {
+                                if (response.status) {
+                                    $('#couponValid').show()
+                                     swal.fire( "You have get a discount of",response.discount +' rupees');
+                                    $('#couponValid').html('<i class="text-success font-weight-bold font-italic"> Valid Code</i>')
+                                    setTimeout(() => {
+                                        $('#couponInput').prop('readonly', true)
+                                        console.log('hi');
+                                    }, 1000)
+                                    $('#totaldiscount').html(response.discount)
+                                    $('#totalPrice').html(response.amount)
+
+                                    $("#Total").val(response.amount)
+                                    $("#discount").val(response.discount)
+                                    $("#percentage").val(response.offerPercentage)
+                                } else {
+                                    $('#couponValid').show()
+                                    $('#couponValid').html('<i class=" text-danger font-weight-bold font-italic ">Invalid Code</i>')
+                                    $("#discount").html(0)
+                                    setTimeout(() => {
+                                        $('#couponValid').hide()
+                                    }, 3000)
+                                }
+                            }
+                        })
+                    }
+</script>
+<script>
+  function getcoupon(){
+ let d=document. getElementById('kk').innerHTML
+     swal.fire( "Your Coupon Code IS",d);
+  }
+</script>
+

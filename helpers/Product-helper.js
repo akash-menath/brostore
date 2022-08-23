@@ -26,24 +26,36 @@ module.exports={
     },
     getAllProducts:()=>{
         return new Promise(async(resolve,reject)=>{
+            try{
             let products=await db.get().collection(collection.product_collection).find().sort({time:-1}).toArray()
             resolve(products)
+            }catch(err){
+                reject(err)
+            }
         })
     },
     
         getProductDetails:(productId)=>{
             return new Promise((resolve ,reject)=>{
+                try{
                db.get().collection(collection.product_collection).findOne({_id:ObjectId(productId)}).then((product)=>{
                 resolve(product)
                })
+            }catch(err){
+                reject(err)
+            }
             })
         },
         deleteProduct:(id)=>{
             return new Promise((resolve,reject)=>{
+                try{
                 db.get().collection(collection.product_collection).deleteOne({_id:ObjectId(id)}).then((response)=>{
                     console.log(response);
                     resolve(response)
                 })
+            }catch(err){
+                reject(err)
+            }
             
             })
         },
@@ -77,6 +89,7 @@ module.exports={
                 }).catch((err)=>{
                     reject(err)
                 })
+
             })
         },
         addcatogory:(catogory)=>{
@@ -88,16 +101,24 @@ module.exports={
                     }else{
                         db.get().collection(collection.catogory_collection).insertOne(catogory).then((data)=>{
                             resolve()
+                        }).catch((err)=>{
+                            reject(err)
                         })
                     }
+                }).catch((err)=>{
+                    reject(err)
                 })
                
             })
         },
         getCatogory:()=>{
             return new Promise(async(resolve,reject)=>{
+                try{
                 let catogory=await db.get().collection(collection.catogory_collection).find().toArray()
                 resolve(catogory)
+                }catch(err){
+                    reject(err)
+                }
             })
         },
         deletecatogory:(id)=>{
@@ -105,6 +126,8 @@ module.exports={
                 db.get().collection(collection.catogory_collection).deleteOne({_id:ObjectId(id)}).then((response)=>{
                     console.log(response);
                     resolve(response)
+                }).catch((err)=>{
+                    reject(err)
                 })
             
             })
@@ -113,6 +136,8 @@ module.exports={
             return new Promise((resolve,reject)=>{
                 db.get().collection(collection.catogory_collection).find().toArray().then((data)=>{
                     resolve(data)
+                }).catch((err)=>{
+                    reject(err)
                 })
             })
         }

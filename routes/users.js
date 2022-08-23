@@ -32,6 +32,9 @@ router.get('/',async function(req, res, next) {
   }
   let category= await productHelpers.getAllCategory()
   let banner=await adminHelpers.getBanner()
+
+ 
+
   productHelpers.getAllProducts().then((products) =>{
     if(sarchProduct){
       products=sarchProduct
@@ -94,9 +97,9 @@ router.post('/signin',(req,res,next)=>{
    
     userHelper.existinguser(req.body).then((response)=>{
       if(response.status){
+        console.log('processing');
         req.session.signin=true
         req.session.body=req.body
-      
         twilioHelpers.dosms(req.session.body).then((data)=>{
           if(data){
             res.redirect('/otp')
@@ -307,13 +310,18 @@ router.get('/checkout',verifyLogin, async(req,res,next)=>{
    if(cartCount==0){
     res.redirect('/cart')
    }else{
+    let coupon = await userHelper.getCoupon()
+    console.log(coupon);
+
+
+    
    let category= await productHelpers.getAllCategory()
   let total=await userHelper.getCartTotal(req.session.user._id)
   let data=await userHelper.getUserDetails(req.session.user._id)
   let product=await userHelper.getAllCartProducts(req.session.user._id)
  userHelper.getAddress(req.session.user._id).then((address)=>{
   res.render('user/checkout',{layout:'user-layout',user:true,total,
-  user:req.session.user,users,data,product,wishlistCount,cartCount,address,category})
+  user:req.session.user,users,data,product,wishlistCount,cartCount,address,category,coupon})
  })
 }
   }catch(err){
@@ -324,22 +332,25 @@ router.get('/checkout',verifyLogin, async(req,res,next)=>{
 router.post('/checkout',async(req,res,next)=>{
  try{
   let userId=''+req.body.userId
-  // ppppppppppppprrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+  // ppppppppppppprrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
   let products= await userHelper.getCartProducts(userId)
    products=products.product
-  let totalPrice=await userHelper.getCartTotal(userId)
+   let totalPrice=await userHelper.getCartTotal(userId)
   let address=await userHelper.getDelivaryAddress(userId,req.body.address)
-  userHelper.placeOrder(req.body,products,totalPrice,address).then((orderId)=>{
+
+
+
+  
+  userHelper.placeOrder(req.body,products,address).then((orderId)=>{
 
     if(req.body['payment-method']==='COD'){
       console.log('cash on delivary');
       res.json({codSuccess:true})
     }else{
-      userHelper.generateRazorpay(orderId,totalPrice).then((response)=>{
+      userHelper.generateRazorpay(orderId,req.body.total).then((response)=>{
         console.log('raserpay');
         res.json(response)
       })
-      
     }
    
   })
@@ -372,8 +383,20 @@ router.get('/viewOrders',verifyLogin,async(req,res,next)=>{
    }
    let category= await productHelpers.getAllCategory()
  let order=await userHelper.getAllOrderList(users._id)
- 
+
+//  if(order[0].delivaryAddress.discountPercentage!=NaN){
+//   order[0].productTotal=order[0].productTotal*order[0].delivaryAddress.discountPercentage/100    
+//  }
+
  console.log(order);
+ console.log(' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvview orders');
+ const result = order.map((data)=>{
+  if(data.delivaryAddress.discountPercentage!=NaN){
+    return data.productTotal= data.productTotal-(data.productTotal*data.delivaryAddress.discountPercentage/100)
+  }
+
+ })
+ console.log(result);
   res.render('user/viewOrders',{layout:'user-layout',user:true,order,users,wishlistCount,cartCount,category})
   }catch(err){
     next(err)
@@ -390,7 +413,16 @@ router.get('/view-order-products/:id/:pid',verifyLogin,async(req,res,next)=>{
    }
    let category= await productHelpers.getAllCategory()
  let products=await userHelper.getOrderProducts(req.params.id,req.params.pid)
+ console.log('productsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss');
  console.log(products);
+ console.log(products[0]. delivaryAddress.discountPercentage);
+ console.log(products[0].qty);
+ console.log(products[0].product.price);
+ products[0].total=products[0].qty*products[0].product.price
+ products[0].discount=(products[0].total*products[0]. delivaryAddress.discountPercentage)/100
+ products[0].finaltotal=products[0].total- products[0].discount
+ console.log(products);
+
  res.render('user/view-order-product',{layout:'user-layout',user:true,users,products,wishlistCount,cartCount,category})
   }catch(err){
     next(err)
@@ -406,9 +438,14 @@ router.get('/invoice/:id/:pid',verifyLogin,async(req,res)=>{
    }
    let category= await productHelpers.getAllCategory()
  let products=await userHelper.getOrderProducts(req.params.id,req.params.pid)
+ console.log('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiinnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn');
+
+ products[0].total=products[0].qty*products[0].product.price
+ products[0].discount=(products[0].total*products[0]. delivaryAddress.discountPercentage)/100
+ products[0].finaltotal=products[0].total- products[0].discount
+ console.log(products);
   res.render('user/invoice',{layout:'user-layout',user:true,users,cartCount,wishlistCount,category,products})
 })
-// invoice print
 
 // online payment
 router.post('/verify-payment',(req,res,next)=>{
@@ -429,7 +466,7 @@ userHelper.changePaymentStatus(req.body['order[receipt]']).then(()=>{
 // delete order product
 router.get('/cancelOrder/:id/:pid',verifyLogin,(req,res,next)=>{
   try{
- userHelper.cancelOrder(req.session.user._id,req.params.pid).then(()=>{
+ userHelper.cancelOrder(req.params.id,req.params.pid).then(()=>{
  res.redirect('/viewOrders')
  })
 }catch(err){
@@ -472,10 +509,34 @@ router.get('/userProfile',verifyLogin,async(req,res,next)=>{
   }
 })
 
+router.post('/add-addressimage',verifyLogin,(req,res,next)=>{
+try{
+   if (req.files.Image) {
+      let image = req.files.Image
+      let id = req.session.user._id
+      image.mv('./public/user-images/' + id + '.jpg')
+    }
+    res.redirect('back')
+}catch(err){
+  next(err)
+}
+})
+
 // addresssssssssssssssssssssssssss
 router.post('/add-address',verifyLogin,(req,res,next)=>{
 try{
   userHelper.addAddress(req.session.user._id,req.body).then((response)=>{
+    res.redirect('back')
+  })
+}catch(err){
+  next(err)
+}
+})
+// 
+router.post('/add-deliveryAddress',verifyLogin,(req,res,next)=>{
+try{
+  userHelper.addDeliveryAddress(req.session.user._id,req.body).then((response)=>{
+    
     res.redirect('back')
   })
 }catch(err){
@@ -518,7 +579,7 @@ router.post('/email',(req,res)=>{
 })
 router.post('/forgotOtp',(req,res)=>{
   try{
-  
+    
   twilioHelpers.otpVerify(req.body,req.body).then((response)=>{
     if(response.valid){
      res.render('user/ChangePassword',{layout:'user-layout'})
@@ -541,6 +602,25 @@ router.post('/ChangePassword',(req,res)=>{
   next(err)
 }
 })
+/////////ameeer
+router.post('/check-coupon',async(req, res, next) => {
+
+  let userId = req.session.user._id
+  let couponCode = req.body.coupon
+console.log(req.body);
+  console.log('cccoponcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc');
+  console.log(couponCode);
+  // let totalAmount = await userHelper.getTotalAmount(userId)
+  let totalPrice=await userHelper.getCartTotal(userId)
+  console.log(totalPrice);
+  userHelper.checkCoupon(couponCode,totalPrice).then((response) => {
+    console.log(response);
+      res.json(response)
+  }).catch((response) => {
+      res.json(response)
+  })
+}),
+
 
 //******************************************************************logout
 

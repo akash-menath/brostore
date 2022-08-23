@@ -5,12 +5,12 @@
       <form action="/admin/add-product" method="post" enctype="multipart/form-data" class="text-danger" id="addProduct">
 
         <label class="text-dark" for="">Name</label>
-        <input type="text" name="name" class="form-control" required><br>
+        <input type="text" name="name" class="form-control" oninput="this.value= this.value.toLocaleUpperCase()" required><br>
 
         <label class="text-dark" for="">Salect Categories</label><br>
         <select  name="category" class="form-select" id="">
           {{#each catogory}}
-          <option value="Men">{{this.name}}</option>
+          <option >{{this.name}}</option>
           {{/each}}
         </select>
 

@@ -28,8 +28,11 @@
 									<th class="" style="width: 50px;">Amount</th>
 									<th class="" style="width: 50px;">Payment</th>
 									<th class="" style="width: 50px;">Status</th>
-									<th class="" style="width: 80px;">Details</th>
+									
+									
+
 								</tr>
+								
 								{{#each order}}
 
 								<tr class="table_row">
@@ -41,6 +44,9 @@
 										Brand : {{result.category}} <br>
 										Price : {{result.price}} <br>
 										Quantity : {{products.qty}}
+										{{#if productTotal}}
+										Discount : {{delivaryAddress.discount}}
+										{{/if}}
 									</td>
 									
 									<td class="" style="width: 200px;">{{delivaryAddress.name}} <br>
@@ -53,7 +59,15 @@
 									</td>
 
 
-									<td class="" style="width: 50px;">{{result.price}}</td>
+									
+										{{#if productTotal}}
+										<td class="" style="width: 50px;"> {{this.productTotal}}</td>
+										{{else}}
+										<td class="" style="width: 50px;">{{delivaryAddress.totalAmount}}</td>
+										{{/if}}
+										
+										
+									{{!-- <td class="" style="width: 50px;">OR {{delivaryAddress.totalAmount}} <br>PR {{this.productTotal}}</td> --}}
 									<td class="" style="width: 50px;">{{paymentMethod}}</td>
 									<td class="" style="width: 50px;">{{products.Status}}</td>
 									<td class="" style="width: 80px;"><a

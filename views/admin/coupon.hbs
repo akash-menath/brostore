@@ -1,0 +1,54 @@
+
+<section>
+    <div class="container"> 
+        <div class="">
+            <a  href="/admin/generate-coupon" class="btn btn-success mt-5">Add coupon</a>
+        </div>
+        <table class="table mt-5 display" id="productTable">
+            <thead>
+                <tr>
+                    
+                                 <th scope="col">NO:</th>
+                                <th scope="col">Coupon</th>
+                                <th scope="col">Offer in %</th>
+                                <th scope="col">Validity</th>
+                                <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each coupon}}
+                <tr>
+                                <th sope="row">{{inc @index}}</th>
+                                <td>{{this.name}}</td>
+                                <td>{{this.offer}}</td>
+                                <td>{{this.validity}}</td>
+               <td>                           
+                      <a href="/admin/edit-coupon/{{this._id}}" class="btn btn-primary">Edit</a>
+                      <a href="/admin/delete-coupon/{{this._id}}" class="btn btn-danger"
+                      onclick="return confirm('Are you sure to Delete {{this.name}}?')">Delete</a>
+                     </td>
+                </tr>
+
+                                         
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+{{!--  --}}
+
+<script>
+    $(document).ready(function () {
+
+
+        $('#productTable').wrap('<div id="hide" style="display:none"/>');
+
+        $('#hide').css('display', 'block');
+    });
+
+
+    var table = $('#productTable').DataTable();
+</script>
+

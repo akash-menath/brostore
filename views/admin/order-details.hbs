@@ -11,17 +11,22 @@
                     <th scope="col">amount</th>
                     <th scope="col">Address</th>
                     <th scope="col">Change Status</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    {{#each data}}
+                    {{#each order}}
                     <th scope="row">{{inc @index}}</th>
                     <td>{{this.delivaryAddress.name}}</td>
                     <td>{{this.delivaryAddress.phone}}</td>
                     <td>{{this.paymentMethod}}</td>
                     <td>{{products.Status}}</td>
-                    <td>{{this.delivaryAddress.totalAmount}}</td>
+                    {{#if delivaryAddress.discount}}
+                    <td>{{productTotal}}</td>
+                    {{else}}
+                    <td>{{Total}}</td>
+                    {{/if}}
                     <td>{{this.delivaryAddress.address}}</td>
                 
 

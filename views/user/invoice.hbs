@@ -5,18 +5,20 @@
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
                     <a href="/"><i class="fa fa-home"></i> Home</a>
-                    <span> <div class="col">
-                                <button class="btn btn-lg" onclick="generatePDF()">Download  PDF<svg
-                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                        class="bi bi-download" viewBox="0 0 16 16">
-                                        <path
-                                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z">
-                                        </path>
-                                        <path
-                                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z">
-                                        </path>
-                                    </svg></button>
-                            </div></span>
+                    <span>
+                        <div class="col">
+                            <button class="btn btn-lg" onclick="generatePDF()">Download PDF<svg
+                                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-download" viewBox="0 0 16 16">
+                                    <path
+                                        d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z">
+                                    </path>
+                                    <path
+                                        d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z">
+                                    </path>
+                                </svg></button>
+                        </div>
+                    </span>
                 </div>
             </div>
         </div>
@@ -24,24 +26,27 @@
 </div>
 <!-- Breadcrumb End -->
 
-<div class="container mt-5 mb-5" id="invoice">
+<div class="container mt-3 mb-5" id="invoice">
     <div class="d-flex justify-content-center row">
         <div class="col-md-10">
             <div class="receipt bg-white p-3 rounded">
                 {{!-- <img src="https://i.imgur.com/zCAnG06.png" width="120" /> --}}
-            <div class="receipt bg-white p-3 rounded"> <h3 class="font-italic font-weight-bold">brostore</h3></div>
+                <div class="receipt bg-white p-3 rounded">
+                    <h3 class="font-italic font-weight-bold">brostore</h3>
+                </div>
                 <h4 class="mt-2 mb-3">Your order is confirmed!</h4>
                 <h6 class="name">Hello {{products.0.delivaryAddress.name}},</h6><span class="fs-12 text-black-50">your
                     order has been confirmed and will be shipped in two days</span>
                 <hr />
-           
+
                 <div class="d-flex flex-row justify-content-between align-items-center order-details">
                     <div><span class="d-block fs-12">Order date</span><span
                             class="font-weight-bold">{{products.0.delivaryAddress.date}}</span></div>
                     <div><span class="d-block fs-12">Order number</span><span
                             class="font-weight-bold">{{products.0._id}}</span></div>
-                    <div><span class="d-block fs-12">Payment method</span><span class="font-weight-bold">Credit
-                            card</span><img class="ml-1 mb-1" src="https://i.imgur.com/ZZr3Yqj.png" width="20" /></div>
+                    <div><span class="d-block fs-12">Payment method</span>
+                    <span class="font-weight-bold">Creditcard</span>
+                            <img class="ml-1 mb-1" src="https://i.imgur.com/ZZr3Yqj.png" width="20" /></div>
                     <div><span class="d-block fs-12">Shipping Address</span><span class="font-weight-bold text-success">
                             {{products.0.delivaryAddress.name}}
                             <br />
@@ -60,42 +65,58 @@
                     <div class="d-flex flex-row product-name-image"><img class="rounded"
                             src="/product-images/{{products.0.item}}.jpg" width="80" />
                         <div class="d-flex flex-column justify-content-between ml-2">
-                            <div><span class="d-block font-weight-bold p-name">Ralco formal
-                                    shirts for men</span><span class="fs-12">Clothes</span></div><span
-                                class="fs-12">Qty: 1pcs</span>
+
+                            <h5> {{products.0.product.name}}</h5>
+                            <h5> {{products.0.product.description}}</h5>
+                            <h5>Price:{{products.0.product.price}}</h5>
+                            <h5>Qty : {{products.0.qty}}</h5><br>
+
                         </div>
                     </div>
-                    <div class="product-price">
-                        <h5> RS : {{products.0.product.price}}</h5>
+                    <div>
+                        {{!-- <h5> RS : {{products.0.product.price}}</h5>
+                        <h5> Quandity : {{products.0.qty}}</h5> --}}
                     </div>
                 </div>
 
-                <div class="mt-3 amount row">
+                <div class="amount row">
                     <div class="d-flex justify-content-center col-md-6"><img src="https://i.imgur.com/AXdWCWr.gif"
                             width="250" height="100" /></div>
-                            
+
                     <div class="col-md-6">
                         <div class="billing">
                             <div class="d-flex justify-content-between"><span>Subtotal</span><span
                                     class="font-weight-bold">RS :
-                                    {{products.0.product.price}}</span></div>
-                            <div class="d-flex justify-content-between mt-2"><span>Shipping
+                                    {{products.0.total}}</span></div>
+                            {{!-- <div class="d-flex justify-content-between mt-2"><span>Shipping
                                     fee</span><span class="font-weight-bold">RS : 25</span></div>
                             <div class="d-flex justify-content-between mt-2"><span>Tax</span><span
-                                    class="font-weight-bold">RS : 15</span></div>
+                                    class="font-weight-bold">RS : 15</span></div> --}}
+                            <div class="d-flex justify-content-between mt-2"><span class="text-success">Delivery
+                                    charge</span><span class="font-weight-bold text-success">
+                                    Free</span></div>
+
+                            {{#if products.0.discount}}
                             <div class="d-flex justify-content-between mt-2"><span
                                     class="text-success">Discount</span><span class="font-weight-bold text-success">RS :
-                                    40</span></div>
+                                    {{products.0.discount}}</span></div>
                             <hr />
                             <div class="d-flex justify-content-between mt-1"><span
-                                    class="font-weight-bold">Total</span><span class="font-weight-bold text-success">RS
-                                    :
-                                    {{products.0.product.price}}</span></div>
+                                    class="font-weight-bold">Total</span><span class="font-weight-bold ">
+                                    RS : {{products.0.finaltotal}}</span></div>
+
+                            {{else}}
+                            <div class="d-flex justify-content-between mt-1"><span
+                                    class="font-weight-bold">Total</span><span class="font-weight-bold ">
+                                    RS : {{products.0.total}}</span></div>
+                            {{/if}}
+
+
                         </div>
                     </div>
                 </div><span class="d-block">Expected delivery date</span><span
                     class="font-weight-bold text-success">{{products.0.delivaryAddress.date}}</span><span
-                    class="d-block mt-2 text-black-50 fs-15">We will be sending a shipping confirmation email when the
+                    class="d-block  text-black-50 fs-15">We will be sending a shipping confirmation email when the
                     item is
                     shipped!</span>
                 <hr />
@@ -103,7 +124,7 @@
                     <div class="thanks"><span class="d-block font-weight-bold">Thanks for
                             shopping</span><span>Brostore team</span></div>
                     <div class="thanks"><span class="d-block font-weight-bold">
-                           
+
                         </span></div>
                     <div class="d-flex flex-column justify-content-end align-items-end"><span
                             class="d-block font-weight-bold">Need Help?</span><span>Call -

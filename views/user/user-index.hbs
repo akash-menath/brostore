@@ -109,14 +109,14 @@
                    
                 
                     <div class="product__item__text">
-                        <h6><a href="/product-details?id={{this._id}}">Buttons tweed blazer</a></h6>
-                        <div class="rating">
+                        <h6><a href="/product-details?id={{this._id}}">{{this.name}}</a></h6>
+                        {{!-- <div class="rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
-                        </div>
+                        </div> --}}
                         <div class="product__price js-name-detail">Rs{{this.price}}</div>
                     </div>
                 </div>
@@ -143,7 +143,7 @@
                         <div class="banner__text">
                             <span>Men"s Collections</span>
                             <h1>The Project Jacket</h1>
-                            <a href="/shop"">Shop now</a>
+                            <a href="/shop">Shop now</a>
                         </div>
                     </div>
                     <div class="banner__item">
@@ -162,7 +162,7 @@
 
 
 <!-- Discount Section Begin -->
-<section class="discount">
+{{!-- <section class="discount">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 p-0">
@@ -200,7 +200,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 <!-- Discount Section End -->
 
 <!-- Services Section Begin -->
@@ -249,9 +249,12 @@
         success:(response)=>{
             if(response.status){
                 let count=$('#cart-count').html()
-                swal.fire( "is added to cart !", "success");
+                swal.fire( "Item  added to cart !", "success");
                 count=parseInt(count)+1
                 $('#cart-count').html(count)
+                $("#cart-count").load(location.href + " #cart-count");
+                $("#cart-count1").load(location.href + " #cart-count");
+                $('#cart-count1').html(count)
             }
         }
     })
@@ -271,15 +274,17 @@
                 swal.fire( "Item Added to Wishlist !", "success");
                 count=parseInt(count)+1
                 $('#wishlist-count').html(count)
+                $('#wishlist-count1').html(count)
                 }else{
                      let count=$('#wishlist-count').html()
                     swal.fire( "Item Removed Frome wishlist !", "success");
                      count=parseInt(count)-1
                 $('#wishlist-count').html(count)
+                $('#wishlist-count1').html(count)
                 }
                
             }else{
-                swal.fire( "plese loggin !", "success");
+                swal.fire( "please login !");
             }
         }
     })
