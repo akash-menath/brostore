@@ -607,9 +607,7 @@ router.post('/check-coupon',async(req, res, next) => {
 
   let userId = req.session.user._id
   let couponCode = req.body.coupon
-console.log(req.body);
-  console.log('cccoponcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc');
-  console.log(couponCode);
+
   // let totalAmount = await userHelper.getTotalAmount(userId)
   let totalPrice=await userHelper.getCartTotal(userId)
   console.log(totalPrice);

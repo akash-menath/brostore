@@ -919,10 +919,10 @@ module.exports = {
 
         return new Promise(async(resolve, reject) => {
           let user=await db.get().collection(collection.user_collection).findOne({coupon:true})
-          if(user){
-            console.log('already used coupan');
-            reject({ status: false })
-          }else{
+        //   if(user){
+        //     console.log('already used coupan');
+        //     reject({ status: false })
+        //   }else{
             console.log('uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuussssssssssssssserrrrrrrrrrrrrrrr');
             db.get().collection(collection.COUPON_collection).findOne({ name: coupon }).then((response) => {
                 console.log(response);
@@ -950,7 +950,7 @@ module.exports = {
                     })
                 }
             })
-          }
+        //   }
            
         })
     },
